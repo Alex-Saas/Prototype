@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>GoIELTS — تصميم تنبيه تجديد الاشتراك | النموذج المعتمد</title>
+<style>
+/* Verified production typeface. The alternative Google Fonts source supports cross-origin previews. */
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap');
+@font-face{font-family:'GoIELTS Plex';src:url('https://app.goielts.ai/_next/static/media/9da48a48bf6500f8-s.p.woff2') format('woff2');font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:'GoIELTS Plex';src:url('https://app.goielts.ai/_next/static/media/f022b1629605b85c-s.p.woff2') format('woff2');font-weight:500;font-style:normal;font-display:swap}
+@font-face{font-family:'GoIELTS Plex';src:url('https://app.goielts.ai/_next/static/media/e4efb0298547fad0-s.p.woff2') format('woff2');font-weight:600;font-style:normal;font-display:swap}
+@font-face{font-family:'GoIELTS Plex';src:url('https://app.goielts.ai/_next/static/media/fb66eb17bf011c3b-s.p.woff2') format('woff2');font-weight:700;font-style:normal;font-display:swap}
+:root{
+  --navy:#06266e;--ink:#082862;--blue:#123d95;--burgundy:#c8102e;
+  --bg:#f1f4fa;--surface:#f7f9ff;--line:#d5dff2;--secondary:#667591;
+  --green:#087e46;--soft-red:#fff5f6;--red-border:#efcdd2;
+  --font:'GoIELTS Plex','IBM Plex Sans Arabic','Noto Sans Arabic','Segoe UI',Tahoma,Arial,sans-serif;
+}
+*{box-sizing:border-box}[hidden]{display:none!important}
+html{background:#f3f6fb}body{margin:0;background:linear-gradient(155deg,#eef2f9 0%,#f7f9fd 55%,#f0f4fa 100%);min-height:100vh;color:var(--navy);font-family:var(--font);-webkit-font-smoothing:antialiased}
+button{font:inherit;cursor:pointer}button:focus-visible{outline:3px solid #4c84e5;outline-offset:3px}button:disabled{cursor:not-allowed;opacity:.55}
+.prototype{max-width:1270px;margin-inline:auto;padding:22px clamp(12px,3vw,34px) 56px}
+.header{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;margin-bottom:17px;flex-wrap:wrap}
+.header__title{font-size:24px;line-height:1.35;color:#09265f;margin:0;font-weight:700}.header__subtitle{margin:5px 0 0;font-size:12px;color:#7887a0}
+.header__version{color:#687993;font-size:12px;background:#fff;border:1px solid #e0e6f1;padding:7px 11px;border-radius:999px;white-space:nowrap}
+.controls{position:relative;display:flex;align-items:center;justify-content:flex-start;flex-wrap:wrap;column-gap:28px;row-gap:12px;background:#fff;border:1px solid #e0e6f0;border-radius:14px;padding:14px 16px;box-shadow:0 5px 24px #1c39790a}
+.control-group{min-width:max-content}.control-group__label{display:block;margin:0 0 7px;color:#71819b;font-size:11px;font-weight:500}
+.segment{display:inline-flex;gap:3px;padding:3px;background:#f1f4fa;border:1px solid #e2e8f3;border-radius:10px}
+.segment button{color:#4b5e83;font-size:12px;min-height:35px;background:transparent;border:1px solid transparent;border-radius:7px;padding:7px 12px;white-space:nowrap;transition:background .12s ease}
+.segment button:hover{background:#fff}.segment button[aria-pressed='true']{background:#fff;border-color:#ccdcf8;color:#0d388a;box-shadow:0 1px 4px #0d388a14;font-weight:600}
+.control-extra{margin-inline-start:auto;display:flex;align-items:center;gap:8px;min-height:55px}
+.control-extra button{color:#2e477b;background:#fff;border:1px solid #d6e0f0;border-radius:9px;padding:8px 12px;font-size:12px}
+.control-extra button[hidden]{display:none}
+.stage{margin-top:28px}
+.stage-header{display:flex;align-items:center;justify-content:space-between;margin:0 1px 15px;gap:12px}
+.stage-title{font-family:var(--font);font-size:15px;font-weight:600;color:#7d8aa0;margin:0}.stage-note{font-size:11px;color:#8793a9;margin:0}
+.demo-frame{padding:clamp(15px,3.5vw,30px);background:linear-gradient(180deg,rgba(255,255,255,.8),rgba(247,249,255,.45));border-radius:16px;border:1px solid #e8edf5;box-shadow:0 8px 32px rgba(18,45,101,.04)}
+.banner{position:relative;margin:0 auto;width:100%;background:var(--surface);border:1px solid var(--line);box-shadow:0 6px 19px rgba(27,53,117,.08),0 1px 3px rgba(27,53,117,.04);color:var(--navy)}
+.banner[data-expired='true']{background:var(--soft-red);border-color:var(--red-border)}
+.banner--desktop{display:flex;align-items:center;justify-content:space-between;gap:22px;min-height:160px;border-radius:12px;border-inline-start:4px solid var(--navy);padding:22px 24px 20px 24px}
+.banner--desktop[data-expired='true']{border-inline-start-color:#bf1730}
+.banner__body{flex:1 1 auto;min-width:0;text-align:right}
+.banner__top{display:flex;flex-direction:row;align-items:center;gap:12px;min-width:0}
+.banner__heading{margin:0;color:#052367;font-weight:700;line-height:1.4;font-size:clamp(18px,2.15vw,29px);letter-spacing:-.25px;white-space:normal}
+.banner[data-expired='true'] .banner__heading{color:#9e152b}
+.banner__icon{width:41px;height:41px;flex:none;display:block}.banner__icon--mobile{display:none}
+.banner__close{position:relative;display:grid;place-items:center;width:32px;height:32px;border:0;border-radius:7px;color:#687790;background:transparent;flex:0 0 32px;order:-1;margin-inline-start:0}
+.banner__close:hover{background:#e6ecf9;color:#0b347f}.banner__close svg{width:22px;height:22px;display:block}
+.banner__message{margin:11px 0 0;font-size:clamp(13px,1.34vw,18px);font-weight:400;line-height:1.75;color:#62718f;overflow-wrap:break-word}
+.banner__message .emoji{font-size:1.08em;vertical-align:baseline}
+.banner__support{display:flex;justify-content:flex-start;align-items:center;gap:9px;color:var(--green);margin:10px 0 0;line-height:1.4;font-size:clamp(12px,1.18vw,16px);font-weight:600}
+.banner__support svg{height:19px;width:19px;flex:none}
+.banner[data-expired='true'] .banner__support{color:#157448}
+.banner__cta-wrap{flex:0 0 clamp(178px,28%,285px);display:flex;align-items:center;justify-content:center}
+.banner__cta{display:flex;align-items:center;justify-content:center;gap:16px;color:#fff;background:linear-gradient(to right,#ce0b33 1%,#7d194e 49%,#082978 100%);border:0;border-radius:10px;font-weight:700;font-size:clamp(14px,1.7vw,21px);width:100%;min-height:57px;padding:10px 13px;white-space:nowrap;box-shadow:0 7px 16px rgba(14,33,93,.12);transition:box-shadow .2s,transform .2s}
+.banner__cta:hover{transform:translateY(-1px);box-shadow:0 11px 20px rgba(14,33,93,.18)}.banner__cta:active{transform:translateY(0)}
+.banner__cta svg{height:27px;width:27px;flex:none}
+/* Approved Mobile option 2: X on the top right, clock left of title, CTA above reassurance. */
+.mobile-mode .demo-frame{max-width:470px;margin-inline:auto;padding:18px 14px 23px}
+.banner--mobile{width:min(100%,382px);display:flex;flex-direction:column;align-items:stretch;border-radius:15px;padding:18px 16px 17px;text-align:center}
+.banner--mobile .banner__body{display:contents}
+.banner--mobile .banner__top{order:0}
+.banner--mobile .banner__message{order:1}
+.banner--mobile .banner__cta-wrap{order:2}
+.banner--mobile .banner__support{order:3}
+.banner--mobile .banner__top{display:grid;grid-template-columns:25px minmax(0,1fr) 29px;gap:5px;align-items:center}
+.banner--mobile .banner__close{width:25px;height:28px;grid-column:1;grid-row:1;order:initial;justify-self:start}
+.banner--mobile .banner__close svg{width:19px;height:19px}
+.banner--mobile .banner__heading{font-size:clamp(16px,4.05vw,19px);line-height:1.55;text-align:center;grid-column:2;grid-row:1;letter-spacing:0}
+.banner--mobile .banner__icon{height:30px;width:30px;grid-column:3;grid-row:1;justify-self:end}
+.banner--mobile .banner__icon--desktop{display:none}.banner--mobile .banner__icon--mobile{display:block}
+.banner--mobile .banner__message{font-size:13px;line-height:1.95;margin-top:12px;text-align:center}
+.banner--mobile .banner__cta-wrap{display:block;margin-top:17px}
+.banner--mobile .banner__cta{width:100%;font-size:17px;min-height:51px;border-radius:10px}
+.banner--mobile .banner__support{justify-content:center;margin-top:15px;gap:6px;font-size:12.5px;line-height:1.55;flex-wrap:wrap}
+.banner--mobile .banner__support svg{height:16px;width:16px}
+.hidden-state{padding:30px 20px;border:1px dashed #c6d2ea;border-radius:13px;background:#f8faff;text-align:center;color:#71819e}
+.hidden-state svg{height:28px;width:28px;color:#9aaacd}
+.hidden-state__title{font-weight:700;color:#143877;font-size:16px;margin:12px 0 6px}.hidden-state__desc{font-size:12px;margin:0;line-height:1.8}
+.mobile-mode .hidden-state{max-width:382px;margin-inline:auto}
+.app-sim{border-top:1px solid #e9eef6;margin-top:22px;padding-top:16px;display:flex;align-items:center;justify-content:space-between;gap:12px;color:#8795aa;font-size:12px}
+.app-sim strong{color:#263d6f;font-weight:600}
+.app-sim .skeleton{display:flex;gap:9px;align-items:center}.app-sim .pill{height:12px;width:55px;border-radius:100px;background:#dfe6f2}.app-sim .pill+ .pill{width:80px;opacity:.7}
+.mobile-mode .app-sim{max-width:440px;margin-inline:auto}
+.footnote{color:#8291aa;text-align:center;margin:16px 0 0;font-size:11px;line-height:1.8}
+.toast{position:fixed;left:20px;bottom:18px;max-width:min(92vw,410px);background:#142c65;color:white;border-radius:11px;padding:13px 18px;box-shadow:0 10px 25px rgba(0,0,0,.16);font-size:13px;line-height:1.8;z-index:12}
+@media(max-width:970px){.controls{column-gap:16px}.banner--desktop{padding:18px 18px;gap:15px}.banner--desktop .banner__cta-wrap{flex-basis:24%}.banner--desktop .banner__heading{font-size:clamp(17px,2.6vw,25px)}.banner--desktop .banner__message{font-size:13px}.banner--desktop .banner__support{font-size:12px}}
+@media(max-width:700px){.prototype{padding:14px 10px 36px}.header__title{font-size:20px}.header__subtitle{font-size:11px}.header__version{display:none}.controls{padding:12px;gap:12px}.control-group{min-width:0}.control-group__label{font-size:10px}.segment{gap:2px}.segment button{font-size:11px;min-height:34px;padding:6px 9px}.control-extra{margin-inline-start:0;min-height:auto}.stage{margin-top:18px}.demo-frame{padding:14px}.stage-header{margin-bottom:10px}.banner--desktop{min-height:154px}.banner--desktop .banner__icon{width:31px;height:31px}.banner--desktop .banner__top{gap:6px}.banner--desktop .banner__close{width:25px;height:27px;flex-basis:25px}.banner--desktop .banner__close svg{width:18px;height:18px}.banner--desktop .banner__heading{font-size:clamp(16px,2.7vw,20px)}.banner--desktop .banner__cta-wrap{flex-basis:26%;min-width:128px}.banner--desktop .banner__cta{font-size:13px;min-height:46px;gap:4px;padding:8px}.banner--desktop .banner__cta svg{width:18px;height:18px}.banner--desktop .banner__support{margin-top:7px}}
+@media(max-width:480px){.controls{column-gap:10px}.banner--desktop{gap:10px;padding:14px 10px}.banner--desktop .banner__cta-wrap{min-width:99px;flex-basis:24%}.banner--desktop .banner__heading{font-size:14px}.banner--desktop .banner__message{font-size:10px}.banner--desktop .banner__support{font-size:10px}.banner--desktop .banner__icon{width:23px;height:23px}.banner--desktop .banner__cta{font-size:11px;min-height:40px}.banner--mobile .banner__heading{font-size:clamp(15px,4.6vw,18px)}.banner--mobile .banner__message{font-size:13px}}
+@media(prefers-reduced-motion:reduce){.banner__cta{transition:none}}
+</style>
+</head>
+<body>
+<main class="prototype">
+  <header class="header">
+    <div>
+      <h1 class="header__title">تنبيه تجديد الاشتراك</h1>
+      <p class="header__subtitle">معاينة التصميم المعتمد — الكمبيوتر: النموذج الأول · الجوال: النموذج الثاني</p>
+    </div>
+    <div class="header__version">GoIELTS · UI/UX Review</div>
+  </header>
+  <section class="controls" aria-label="خيارات تجربة التنبيه">
+    <div class="control-group">
+      <span class="control-group__label">حالة الاشتراك</span>
+      <div class="segment" role="group" aria-label="حالة الاشتراك">
+        <button type="button" data-subscription="before" aria-pressed="true">قبل الانتهاء</button>
+        <button type="button" data-subscription="expired" aria-pressed="false">بعد الانتهاء</button>
+      </div>
+    </div>
+    <div class="control-group">
+      <span class="control-group__label">حالة الطالب</span>
+      <div class="segment" role="group" aria-label="حالة الطالب">
+        <button type="button" data-student="gap" aria-pressed="true">لم يحقق الهدف</button>
+        <button type="button" data-student="achieved" aria-pressed="false">حقق الهدف</button>
+        <button type="button" data-student="general" aria-pressed="false">رسالة عامة</button>
+      </div>
+    </div>
+    <div class="control-group">
+      <span class="control-group__label">حجم الشاشة</span>
+      <div class="segment" role="group" aria-label="حجم الشاشة">
+        <button type="button" data-device="desktop" aria-pressed="true">كمبيوتر</button>
+        <button type="button" data-device="mobile" aria-pressed="false">جوال</button>
+      </div>
+    </div>
+    <div class="control-group">
+      <span class="control-group__label">عرض الصفحة</span>
+      <div class="segment" role="group" aria-label="عرض الصفحة">
+        <button type="button" data-page="eligible" aria-pressed="true">صفحة عادية</button>
+        <button type="button" data-page="excluded" aria-pressed="false">اختبار / نتيجة</button>
+      </div>
+    </div>
+    <div class="control-extra">
+      <button id="restore" type="button" hidden>إظهار بعد الإغلاق</button>
+    </div>
+  </section>
+  <section id="stage" class="stage desktop-mode">
+    <div class="stage-header"><h2 id="stage-title" class="stage-title">Desktop — النموذج الأول</h2><p class="stage-note">بانر ضمن مساحة المحتوى، بدون تعطيل الصفحة</p></div>
+    <div class="demo-frame">
+      <article id="banner" class="banner banner--desktop" data-expired="false" aria-labelledby="banner-heading">
+        <div class="banner__body">
+          <div class="banner__top">
+            <button id="dismiss" class="banner__close" type="button" title="إخفاء التنبيه لمدة 24 ساعة" aria-label="إخفاء التنبيه لمدة 24 ساعة">
+              <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5L19 19M19 5L5 19"/></svg>
+            </button>
+            <h3 id="banner-heading" class="banner__heading">باقي ٧ أيام على انتهاء اشتراكك</h3>
+            <svg class="banner__icon banner__icon--desktop" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+              <circle cx="24" cy="24" r="23" fill="#FBE7E7"/><circle cx="24" cy="24" r="13.4" stroke="#D42C31" stroke-width="2.6"/><path d="M24 15.8V24.5L30.5 28.4" stroke="#D42C31" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <svg class="banner__icon banner__icon--mobile" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+              <defs><linearGradient id="mobileClockGradient" x1="5" y1="5" x2="45" y2="48" gradientUnits="userSpaceOnUse"><stop stop-color="#E1123F"/><stop offset="1" stop-color="#092D85"/></linearGradient></defs>
+              <circle cx="25" cy="26" r="15.5" stroke="url(#mobileClockGradient)" stroke-width="3.6"/>
+              <path d="M25 17V26L31 30" stroke="url(#mobileClockGradient)" stroke-linecap="round" stroke-linejoin="round" stroke-width="3.6"/>
+              <path d="M11 12L7 8M25 5V2M8 25H4" stroke="#D51C40" stroke-width="3.4" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <p id="banner-message" class="banner__message"></p>
+          <p class="banner__support"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12.5L10 17.2L19 7.5" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg><span id="banner-support"></span></p>
+        </div>
+        <div class="banner__cta-wrap"><button id="renew" class="banner__cta" type="button"><span>جدّد اشتراكك</span><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M27 16H5m0 0 8-8m-8 8 8 8"/></svg></button></div>
+      </article>
+      <div id="hidden-state" class="hidden-state" hidden>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.7"><path d="M3 3 21 21M9.7 9.8a3 3 0 0 0 4.5 3.8M6.4 6.3A11.7 11.7 0 0 0 2 12s3.8 6.5 10 6.5c2.1 0 3.9-.7 5.4-1.7M9.9 5.7a10.5 10.5 0 0 1 2.1-.2C18.2 5.5 22 12 22 12a17.2 17.2 0 0 1-2.3 2.7"/></svg>
+        <p class="hidden-state__title" id="hidden-heading">تم إخفاء التنبيه</p>
+        <p class="hidden-state__desc" id="hidden-desc">يعود بعد 24 ساعة إذا لم يتم التجديد.</p>
+      </div>
+      <div class="app-sim" aria-hidden="true"><strong>الرئيسية</strong><div class="skeleton"><i class="pill"></i><i class="pill"></i></div></div>
+    </div>
+    <p class="footnote">نموذج تفاعلي للمراجعة فقط: زر التجديد يشرح المسار التالي دون تنفيذ أي عملية دفع.</p>
+  </section>
+</main>
+<div id="toast" class="toast" role="status" hidden></div>
+<script>
+(()=>{
+'use strict';
+const $=(q)=>document.querySelector(q);
+const $$=(q)=>Array.from(document.querySelectorAll(q));
+const KEY='goielts-renewal-prototype-dismissal-v6';
+const DAY=24*60*60*1000;
+const saved=(()=>{try{return Number(localStorage.getItem(KEY)||0)}catch(e){return 0}})();
+const state={subscription:'before',student:'gap',device:'desktop',page:'eligible',dismissUntil:saved};
+const copy={
+ before:{
+  gap:{title:'باقي ٧ أيام على انتهاء اشتراكك',message:'درجتك في نمط الامتحان 6.0 وهدفك 7.0. يلا نكمل، السبعة ما تجي لحالها 😉',support:'وأيامك الباقية محفوظة إذا جددت الحين'},
+  achieved:{title:'باقي ٧ أيام على انتهاء اشتراكك',message:'وصلت لهدفك 7.0 في نمط الامتحان، كفو عليك! 👏 خلنا نكمل عشان تحافظ على مستواك.',support:'وأيامك الباقية محفوظة إذا جددت الحين'},
+  general:{title:'باقي ٧ أيام على انتهاء اشتراكك',message:'خل تدريبك مستمر وما يوقف بالنص. جدّد الحين وكمّل استعدادك للاختبار 💪',support:'وأيامك الباقية محفوظة إذا جددت الحين'}
+ },
+ expired:{
+  gap:{title:'انتهى اشتراكك',message:'درجتك في نمط الامتحان 6.0 وهدفك 7.0. يلا نرجع نكمل، السبعة ما تجي لحالها 😉',support:'تبدأ باقتك الجديدة بعد تأكيد الدفع'},
+  achieved:{title:'انتهى اشتراكك',message:'وصلت لهدفك 7.0 في نمط الامتحان، كفو! 👏 جدّد وواصل تدريبك عشان تحافظ على مستواك.',support:'تبدأ باقتك الجديدة بعد تأكيد الدفع'},
+  general:{title:'انتهى اشتراكك',message:'خلص اشتراكك، بس استعدادك للاختبار يستاهل تكملة. جدّد وارجع للتدريب 💪',support:'تبدأ باقتك الجديدة بعد تأكيد الدفع'}
+ }
+};
+let timer;
+function toast(message){const node=$('#toast');node.textContent=message;node.hidden=false;clearTimeout(timer);timer=setTimeout(()=>{node.hidden=true},4200)}
+function updateControls(){for (const [group,key] of [['subscription','subscription'],['student','student'],['device','device'],['page','page']]){$$('[data-'+group+']').forEach((b)=>b.setAttribute('aria-pressed',String(b.dataset[group]===state[key])))} }
+function render(){
+ const text=copy[state.subscription][state.student];
+ $('#banner-heading').textContent=text.title;
+ $('#banner-message').textContent=text.message;
+ $('#banner-support').textContent=text.support;
+ $('#banner').dataset.expired=String(state.subscription==='expired');
+ $('#stage-title').textContent=state.device==='desktop'?'Desktop — النموذج الأول':'Mobile — النموذج الثاني';
+ $('#stage').classList.toggle('mobile-mode',state.device==='mobile');
+ $('#stage').classList.toggle('desktop-mode',state.device==='desktop');
+ $('#banner').classList.toggle('banner--desktop',state.device==='desktop');
+ $('#banner').classList.toggle('banner--mobile',state.device==='mobile');
+ const excluded=state.page==='excluded';
+ const dismissed=Date.now()<state.dismissUntil;
+ const hidden=excluded||dismissed;
+ $('#banner').hidden=hidden;
+ $('#hidden-state').hidden=!hidden;
+ $('#restore').hidden=!dismissed;
+ $('#hidden-heading').textContent=excluded?'بدون تنبيهات أثناء الاختبار':'تم إخفاء التنبيه';
+ $('#hidden-desc').textContent=excluded?'لا يظهر في صفحات تقديم الاختبار أو صفحات النتائج.':'سيظهر مجددًا بعد 24 ساعة في أول صفحة مسموح بظهوره فيها، إذا لم تجدّد.';
+ updateControls();
+}
+['subscription','student','device','page'].forEach(group=>{ $$('[data-'+group+']').forEach(button=>button.addEventListener('click',()=>{state[group]=button.dataset[group];render()}))});
+$('#dismiss').addEventListener('click',()=>{state.dismissUntil=Date.now()+DAY;try{localStorage.setItem(KEY,String(state.dismissUntil))}catch(e){}render();toast('اختفى التنبيه لمدة 24 ساعة على كل الصفحات المسموح بها.')});
+$('#restore').addEventListener('click',()=>{state.dismissUntil=0;try{localStorage.removeItem(KEY)}catch(e){}render()});
+$('#renew').addEventListener('click',()=>{toast('الخطوة التالية: مراجعة الباقة والسعر وتواريخها، ثم تأكيد الدفع يدويًا عبر Stripe. لا يُخصم أي مبلغ الآن.')});
+render();
+})();
+</script>
+</body>
+</html>
