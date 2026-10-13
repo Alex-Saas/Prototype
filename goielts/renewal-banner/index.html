@@ -118,6 +118,8 @@ button{font:inherit;cursor:pointer}button:focus-visible{outline:3px solid #4c84e
 .rp-review-detail{border:1px solid #e0e8f6;border-radius:12px;background:#f7faff;padding:12px;margin:12px 0 20px;line-height:1.85;color:#4f6282;font-size:12px}
 .rp-review-detail p{margin:4px 0}.rp-card{display:flex;align-items:center;gap:9px;font-size:12px;margin:13px 0}.rp-card input{accent-color:#123d95}
 .rp-feedback{font-size:12px;margin:9px 0;color:#a21837}.rp-muted{color:#8190a6;font-size:11px;line-height:1.7}
+/* Fixed review controller does not change the approved banner's page width or vertical flow. */
+.rp-review{position:fixed;bottom:12px;left:12px;right:auto;z-index:15;width:min(720px,calc(100% - 24px));margin:0;padding:0}.rp-review__inner{box-shadow:0 10px 30px rgba(20,42,95,.15)}.rp-review__hint{display:none}
 body.rp-locked{overflow:hidden}body.rp-success #banner,body.rp-success #hidden-state{display:none!important}
 @media(max-width:480px){.rp-backdrop{padding:12px}.rp-modal{padding:42px 22px 23px;border-radius:17px}.rp-modal h2{font-size:23px;line-height:1.5;letter-spacing:0}.rp-desc{font-size:13px;margin:8px auto 18px}.rp-confidence{padding:12px 11px;gap:9px;margin-bottom:19px}.rp-confidence__check{width:32px;height:32px}.rp-confidence strong{font-size:11.5px}.rp-confidence span{font-size:10px}.rp-primary{min-height:52px;font-size:15px}.rp-review{padding:0 10px}.rp-review__inner{padding:10px}.rp-review label{flex-wrap:wrap}.rp-x{right:15px;top:15px;width:34px;height:34px}}
 @media(prefers-reduced-motion:reduce){.rp-modal,.rp-primary{transition:none}}
