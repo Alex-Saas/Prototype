@@ -380,43 +380,149 @@ render();
 })();
 </script>
 <script>
-/* Popup state is deliberately scoped outside the approved banner closure. */
+/* Renewal popup review behavior · intentionally independent of the approved banner controller */
 (()=>{
 'use strict';
-const q=id=>document.getElementById(id), qa=s=>Array.from(document.querySelectorAll(s));
-const PREFIX='goielts-renewal-popup-cycle-v1:', CYCLE_KEY='goielts-renewal-popup-demo-cycle', RENEW_KEY='goielts-renewal-popup-demo-renewed';
-const set=(k,v)=>{try{localStorage.setItem(k,String(v))}catch(e){}},get=k=>{try{return localStorage.getItem(k)}catch(e){return null}};
-let cycle=get(CYCLE_KEY)||'expired-202610', renewed=get(RENEW_KEY)==='1', open=false, checkout=false, plan='month', lastFocus=null, basePage='eligible';
-const status=s=>{q('rp-status').textContent=s};
-const eligible=()=>q('rp-account').value==='paid'&&q('rp-page').value==='eligible'&&document.querySelector('[data-page="eligible"]').getAttribute('aria-pressed')==='true';
-const expired=()=>document.querySelector('[data-subscription="expired"]').getAttribute('aria-pressed')==='true';
+const q=id=>document.getElementById(id), qa=sel=>Array.from(document.querySelectorAll(sel));
+const params=new URLSearchParams(location.search);
+const PREFIX='goielts-renewal-popup-cycle-v2:', CYCLE_KEY='goielts-renewal-popup-demo-cycle-v2';
+const embedded=params.get('embedded')==='1';
+const RENEW_KEY='goielts-renewal-popup-demo-renewed-v2'+(embedded?'-phone':'');
+const store=(key,val)=>{try{localStorage.setItem(key,String(val))}catch(e){}};
+const read=key=>{try{return localStorage.getItem(key)}catch(e){return null}};
+const clear=key=>{try{localStorage.removeItem(key)}catch(e){}};
+let cycle=params.get('previewCycle')||read(CYCLE_KEY)||'expired-202610';
+let renewed=embedded?false:read(RENEW_KEY)==='1';
+let active=false,step='message',plan='month',previousFocus=null,cycleCounter=0,toolPageChange=false;
+if(embedded)document.body.classList.add('rp-embedded');
+if(['success','failure','cancel'].includes(params.get('outcome')))q('rp-payment').value=params.get('outcome');
 const key=()=>PREFIX+cycle;
-function showStep(step){q('rp-message-step').hidden=step!=='message';q('rp-checkout-step').hidden=step!=='checkout';q('rp-done-step').hidden=step!=='done';checkout=step==='checkout'}
-function openPopup(force=false){if(renewed||!expired()||!eligible()||(!force&&get(key())==='1'))return false;
- if(!force)set(key(),'1');lastFocus=document.activeElement;open=true;q('rp-backdrop').hidden=false;document.body.classList.add('rp-locked');showStep('message');q('rp-close').focus();status('تم عرض النافذة للاشتراك الحالي. لن تتكرر تلقائيًا بعد زيارة جديدة.');return true}
-function closePopup(){open=false;q('rp-backdrop').hidden=true;document.body.classList.remove('rp-locked');lastFocus?.focus?.();status('تم إغلاق النافذة، ولن تظهر تلقائيًا لنفس انتهاء الاشتراك.')}
-function reevaluate(){document.body.classList.toggle('rp-success',renewed); if(open&&!eligible())closePopup();if(!open&&expired()&&eligible()&&!renewed)openPopup(false);if(!expired()&&open)closePopup()}
-function dateDisplay(date){return new Intl.DateTimeFormat('ar-SA-u-nu-latn',{year:'numeric',month:'long',day:'numeric',timeZone:'Asia/Riyadh'}).format(date)}
-function dates(){const start=new Date();const end=new Date(start);end.setUTCMonth(end.getUTCMonth()+(plan==='month'?1:3));return {start,end}}
-function refreshPlan(){qa('[data-rp-plan]').forEach(x=>x.setAttribute('aria-pressed',String(x.dataset.rpPlan===plan)));const {start,end}=dates();q('rp-plan-details').innerHTML='<p><strong>الباقة: </strong>'+ (plan==='month'?'شهر واحد':'٣ أشهر')+'</p><p><strong>السعر التجريبي: </strong>'+(plan==='month'?'١٩٩':'٣٩٩')+' ر.س</p><p><strong>تبدأ: </strong>'+dateDisplay(start)+'</p><p><strong>تنتهي: </strong>'+dateDisplay(end)+'</p>'}
-function complete(){renewed=true;set(RENEW_KEY,'1');document.body.classList.add('rp-success');const d=dates();q('rp-done-text').textContent='باقتك '+(plan==='month'?'شهر':'٣ أشهر')+'، وتاريخ الانتهاء الجديد '+dateDisplay(d.end)+'. تقدر ترجع تكمل تدريبك.';showStep('done');status('نجاح تجريبي: تنبيهات الاشتراك السابق أصبحت مخفية.')}
-q('rp-renew').onclick=()=>{showStep('checkout');q('rp-feedback').hidden=true;refreshPlan();q('rp-confirm').focus()};
-q('rp-close').onclick=closePopup;q('rp-later').onclick=closePopup;
-q('rp-back').onclick=()=>showStep('message');
-q('rp-confirm').onclick=()=>{const outcome=q('rp-payment').value;if(outcome==='success'){complete();return;}q('rp-feedback').hidden=false;q('rp-feedback').textContent=outcome==='failure'?'ما تم الدفع. اشتراكك ما تغير، وتقدر تحاول مرة ثانية.':'تم إلغاء الدفع. اشتراكك ما تغير، وتقدر تجدده وقت ما يناسبك.'};
-q('rp-return').onclick=closePopup;
-qa('[data-rp-plan]').forEach(x=>x.addEventListener('click',()=>{plan=x.dataset.rpPlan;refreshPlan()}));
-qa('[name="rp-card"]').forEach(x=>x.addEventListener('change',()=>{q('rp-save-wrap').hidden=document.querySelector('[name="rp-card"]:checked').value!=='new'}));
-q('rp-new-cycle').onclick=()=>{cycle='demo-'+Date.now();set(CYCLE_KEY,cycle);renewed=false;localStorage.removeItem(RENEW_KEY);document.body.classList.remove('rp-success');q('rp-account').value='paid';document.querySelector('[data-subscription="expired"]').click();queueMicrotask(()=>{if(!open)openPopup(false)});};
-q('rp-revisit').onclick=()=>{if(open)closePopup();const shown=openPopup();if(!shown)status('زيارة جديدة: لم تتكرر النافذة؛ إما ظهرت سابقًا أو الصفحة غير مؤهلة أو الاشتراك تجدد.')};
-q('rp-open').onclick=()=>{if(open)closePopup();if(!openPopup(true))status('هذه الحالة لا تسمح بظهور النافذة. اختر حسابًا مدفوعًا واشتراكًا منتهيًا وصفحة عادية.')};
-q('rp-success').onclick=()=>{if(!open){document.querySelector('[data-subscription="expired"]').click();q('rp-account').value='paid';q('rp-page').value='eligible';openPopup(true)}complete()};
-q('rp-page').onchange=()=>{const isExcluded=q('rp-page').value!=='eligible';document.querySelector(isExcluded?'[data-page="excluded"]':'[data-page="eligible"]').click();reevaluate()};
-q('rp-account').onchange=reevaluate;
-qa('[data-subscription],[data-page]').forEach(b=>b.addEventListener('click',()=>{if(b.dataset.page){basePage=b.dataset.page;q('rp-page').value=basePage==='eligible'?'eligible':'exam'}queueMicrotask(reevaluate)}));
-document.addEventListener('keydown',e=>{if(!open)return;if(e.key==='Escape'){closePopup();return}if(e.key==='Tab'){let a=qa('#rp-dialog button:not([hidden]),#rp-dialog input:not([hidden])').filter(x=>x.getClientRects().length&& !x.disabled);let i=a.indexOf(document.activeElement);if(e.shiftKey&&i===0){e.preventDefault();a.at(-1).focus()}else if(!e.shiftKey&&i===a.length-1){e.preventDefault();a[0].focus()}}});
-document.body.classList.toggle('rp-success',renewed);queueMicrotask(reevaluate);
+const report=msg=>{q('rp-status').textContent=msg};
+const expired=()=>document.querySelector('[data-subscription="expired"]')?.getAttribute('aria-pressed')==='true';
+const eligible=()=>q('rp-page').value==='eligible'&&document.querySelector('[data-page="eligible"]')?.getAttribute('aria-pressed')==='true';
+const isSeen=()=>read(key())==='1';
+function setStep(value){
+ step=value;
+ for(const name of ['message','checkout','done','error'])q('rp-'+(name==='message'?'message':name==='checkout'?'checkout':name==='done'?'done':'error')+'-step').hidden=(value!==name);
+ const head={message:'rp-title',checkout:'rp-review-title',done:'rp-done-title',error:'rp-error-title'};
+ q('rp-dialog').setAttribute('aria-labelledby',head[value]);q('rp-dialog').scrollTop=0;
+}
+function openPopup(force=false){
+ if(active||renewed||!expired()||!eligible()||(!force&&isSeen()))return false;
+ if(!force)store(key(),'1');
+ previousFocus=document.activeElement;active=true;q('rp-backdrop').hidden=false;document.body.classList.add('rp-locked');setStep('message');
+ q('rp-close').focus();report('ظهر تنبيه الاشتراك المنتهي مرة واحدة.');return true;
+}
+function closePopup(){
+ if(!active)return;
+ active=false;q('rp-backdrop').hidden=true;document.body.classList.remove('rp-locked');
+ if(previousFocus&&previousFocus.isConnected&&typeof previousFocus.focus==='function')previousFocus.focus();
+ report('تم إغلاق النافذة. لن تظهر تلقائيًا لنفس انتهاء الاشتراك.');
+}
+function reevaluate(){
+ document.body.classList.toggle('rp-success',renewed);
+ if(active&&(!eligible()||!expired()))closePopup();
+ if(!active&&!renewed&&eligible()&&expired())openPopup();
+}
+function fmtDigits(text){return String(text).replace(/[٠-٩۰-۹]/g,c=>String(c.charCodeAt(0)>=0x06F0?c.charCodeAt(0)-0x06F0:c.charCodeAt(0)-0x0660));}
+function formatDate(date){return fmtDigits(new Intl.DateTimeFormat('ar-SA',{calendar:'gregory',numberingSystem:'latn',timeZone:'Asia/Riyadh',day:'numeric',month:'long',year:'numeric'}).format(date));}
+function addMonths(date,months){const end=new Date(date);const day=end.getDate();end.setDate(1);end.setMonth(end.getMonth()+months);const max=new Date(end.getFullYear(),end.getMonth()+1,0).getDate();end.setDate(Math.min(day,max));return end;}
+function selectedPlan(){return plan==='month'?{label:'شهر واحد',price:199,months:1}:{label:'3 أشهر',price:399,months:3};}
+function getDates(){const start=new Date();const end=addMonths(start,selectedPlan().months);return {start,end};}
+function refreshPlan(){
+ const current=selectedPlan(),dates=getDates();
+ qa('[data-rp-plan]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.rpPlan===plan)));
+ q('rp-plan-label').textContent=current.label;
+ q('rp-price').textContent=current.price.toLocaleString('en-US')+' ر.س';
+ q('rp-start').textContent=formatDate(dates.start);
+ q('rp-end').textContent=formatDate(dates.end);
+}
+function complete(){
+ renewed=true;store(RENEW_KEY,'1');document.body.classList.add('rp-success');setStep('done');
+ q('rp-done-text').textContent='باقة '+selectedPlan().label+' مفعّلة حتى '+formatDate(getDates().end)+'.';
+ report('نجاح تجريبي: انتهت تنبيهات الاشتراك السابق، والمدة الجديدة ظهرت في التأكيد.');
+}
+function showFailure(outcome){
+ const cancelled=outcome==='cancel';
+ q('rp-error-title').textContent=cancelled?'تمام، نكمّل بعدين 🙌':'أوف! الدفع ما ضبط 😅';
+ q('rp-error-text').textContent=cancelled?'ألغيت العملية، واشتراكك ما تغيّر. التجديد ينتظرك وقت ما يناسبك.':'ما اكتمل الدفع، واشتراكك ما تغيّر. عادي، نجرّب مرة ثانية!';
+ q('rp-try-again').textContent=cancelled?'أرجع لخيارات التجديد':'خلّنا نجرب مرة ثانية';
+ setStep('error');report('نتيجة دفع تجريبية: '+(cancelled?'إلغاء':'فشل')+'؛ حالة الاشتراك بقيت دون تغيير.');
+}
+function showCheckout(){refreshPlan();setStep('checkout');q('rp-confirm').focus();}
+q('rp-renew').addEventListener('click',showCheckout);
+q('rp-close').addEventListener('click',closePopup);q('rp-later').addEventListener('click',closePopup);
+q('rp-back').addEventListener('click',()=>setStep('message'));
+q('rp-confirm').addEventListener('click',()=>{const outcome=q('rp-payment').value;if(outcome==='success')complete();else showFailure(outcome);});
+q('rp-try-again').addEventListener('click',showCheckout);q('rp-error-later').addEventListener('click',closePopup);
+q('rp-return').addEventListener('click',closePopup);
+qa('[data-rp-plan]').forEach(b=>b.addEventListener('click',()=>{plan=b.dataset.rpPlan;refreshPlan()}));
+qa('[name="rp-card"]').forEach(r=>r.addEventListener('change',()=>{q('rp-save-wrap').hidden=document.querySelector('[name="rp-card"]:checked')?.value!=='new'}));
+q('rp-review-toggle').addEventListener('click',()=>{
+ const open=q('rp-review-panel').hidden;q('rp-review-panel').hidden=!open;q('rp-review').dataset.open=String(open);
+ q('rp-review-toggle').setAttribute('aria-expanded',String(open));
+});
+function newCycle(){
+ if(active)closePopup();
+ cycle='demo-'+Date.now()+'-'+(++cycleCounter);store(CYCLE_KEY,cycle);renewed=false;clear(RENEW_KEY);
+ document.body.classList.remove('rp-success');
+ const expiryButton=document.querySelector('[data-subscription="expired"]');
+ if(!expired())expiryButton.click();
+ queueMicrotask(()=>{if(!openPopup())report('ما ظهر التنبيه: الصفحة الحالية مستثناة أو غير مؤهلة. اختر صفحة عادية.')});
+}
+q('rp-new-cycle').addEventListener('click',newCycle);
+q('rp-revisit').addEventListener('click',()=>{
+ if(active)closePopup();
+ if(!openPopup())report('زيارة ثانية: التنبيه ما تكرر، وهذا هو السلوك المطلوب.');
+});
+q('rp-open').addEventListener('click',()=>{
+ if(active)closePopup();
+ if(!openPopup(true))report('غيّر حالة الاشتراك إلى «بعد الانتهاء» واختر «صفحة عادية» أولًا.');
+});
+q('rp-success').addEventListener('click',()=>{
+ if(!active){document.querySelector('[data-subscription="expired"]').click();q('rp-page').value='eligible';document.querySelector('[data-page="eligible"]').click();q('rp-backdrop').hidden=false;active=true;document.body.classList.add('rp-locked');}
+ complete();
+});
+q('rp-page').addEventListener('change',()=>{
+ toolPageChange=true;
+ document.querySelector(q('rp-page').value==='eligible'?'[data-page="eligible"]':'[data-page="excluded"]').click();
+ toolPageChange=false;queueMicrotask(reevaluate);
+});
+qa('[data-subscription],[data-page]').forEach(b=>b.addEventListener('click',()=>{
+ if(b.dataset.page&&!toolPageChange)q('rp-page').value=b.dataset.page==='eligible'?'eligible':'exam';
+ queueMicrotask(reevaluate);
+}));
+document.addEventListener('keydown',event=>{
+ if(!active)return;
+ if(event.key==='Escape'){event.preventDefault();closePopup();return;}
+ if(event.key!=='Tab')return;
+ const tabs=qa('#rp-dialog button,#rp-dialog input').filter(el=>!el.disabled&&!el.hidden&&el.getClientRects().length>0);
+ const i=tabs.indexOf(document.activeElement);
+ if(!tabs.length)return;
+ if(event.shiftKey&&i===0){event.preventDefault();tabs[tabs.length-1].focus();}
+ if(!event.shiftKey&&i===tabs.length-1){event.preventDefault();tabs[0].focus();}
+});
+q('rp-backdrop').addEventListener('click',event=>{if(event.target===q('rp-backdrop'))closePopup()});
+function closePhone(){q('rp-phone-preview').hidden=true;q('rp-phone-frame').removeAttribute('src');q('rp-device').value='desktop';}
+function openPhone(){
+ if(innerWidth<650){report('أنت على شاشة جوال، والنافذة تظهر بحجمها الحقيقي.');return;}
+ if(active)closePopup();
+ q('rp-phone-preview').hidden=false;
+ const link=new URL(location.href);
+ link.search='';link.searchParams.set('start','popup');link.searchParams.set('embedded','1');
+ link.searchParams.set('previewCycle','phone-'+Date.now()+'-'+(++cycleCounter));
+ link.searchParams.set('outcome',q('rp-payment').value);
+ q('rp-phone-frame').src=link.pathname+link.search;
+}
+q('rp-phone-exit').addEventListener('click',closePhone);
+q('rp-device').addEventListener('change',()=>{if(q('rp-device').value==='mobile')openPhone();else closePhone()});
+q('rp-payment').addEventListener('change',()=>{if(!q('rp-phone-preview').hidden)openPhone()});
+document.body.classList.toggle('rp-success',renewed);
+queueMicrotask(reevaluate);
+if(params.get('view')==='iphone'&&!embedded&&innerWidth>=650){q('rp-device').value='mobile';openPhone();}
+else if(params.get('start')==='popup'){document.querySelector('[data-subscription="expired"]').click();}
 })();
+
 </script>
 </body>
 </html>
