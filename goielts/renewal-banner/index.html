@@ -90,6 +90,76 @@ button{font:inherit;cursor:pointer}button:focus-visible{outline:3px solid #4c84e
 @media(max-width:700px){.prototype{padding:14px 10px 36px}.header__title{font-size:20px}.header__subtitle{font-size:11px}.header__version{display:none}.controls{padding:12px;gap:12px}.control-group{min-width:0}.control-group__label{font-size:10px}.segment{gap:2px}.segment button{font-size:11px;min-height:34px;padding:6px 9px}.control-extra{margin-inline-start:0;min-height:auto}.stage{margin-top:18px}.demo-frame{padding:14px}.stage-header{margin-bottom:10px}.banner--desktop{min-height:154px}.banner--desktop .banner__icon{width:31px;height:31px}.banner--desktop .banner__top{gap:6px}.banner--desktop .banner__close{width:25px;height:27px;flex-basis:25px}.banner--desktop .banner__close svg{width:18px;height:18px}.banner--desktop .banner__heading{font-size:clamp(16px,2.7vw,20px)}.banner--desktop .banner__cta-wrap{flex-basis:26%;min-width:128px}.banner--desktop .banner__cta{font-size:13px;min-height:46px;gap:4px;padding:8px}.banner--desktop .banner__cta svg{width:18px;height:18px}.banner--desktop .banner__support{margin-top:7px}}
 @media(max-width:480px){.controls{column-gap:10px}.banner--desktop{gap:10px;padding:14px 10px}.banner--desktop .banner__cta-wrap{min-width:99px;flex-basis:24%}.banner--desktop .banner__heading{font-size:14px}.banner--desktop .banner__message{font-size:10px}.banner--desktop .banner__support{font-size:10px}.banner--desktop .banner__icon{width:23px;height:23px}.banner--desktop .banner__cta{font-size:11px;min-height:40px}.banner--mobile .banner__heading{font-size:clamp(15px,4.6vw,18px)}.banner--mobile .banner__message{font-size:13px}}
 @media(prefers-reduced-motion:reduce){.banner__cta{transition:none}}
+
+/* Renewal Popup A · iOS-first review · isolated from approved banner CSS */
+.rp-review{position:fixed;z-index:60;left:14px;bottom:calc(14px + env(safe-area-inset-bottom,0px));width:min(560px,calc(100vw - 28px));font-family:var(--font);direction:rtl;text-align:right}
+.rp-review__toggle{display:inline-flex;align-items:center;justify-content:center;gap:7px;min-height:42px;padding:9px 16px;background:#fff;border:1px solid #cfdaf0;border-radius:999px;box-shadow:0 7px 24px #0c2a6530;color:#0a306f;font:700 12px var(--font)}
+.rp-review__toggle:hover{background:#f0f5ff}
+.rp-review__inner{margin-top:8px;padding:15px;background:#fff;border:1px solid #dce4f2;border-radius:16px;box-shadow:0 12px 36px #13275a2f;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.rp-review__title{grid-column:1/-1;margin:0;font-size:13px;font-weight:700;color:#092d6c}
+.rp-review__field{min-width:0;display:flex;flex-direction:column;gap:5px;color:#586982;font-size:11px;font-weight:600}
+.rp-review select{width:100%;min-height:37px;border:1px solid #d4dff0;border-radius:8px;padding:7px;background:#f8faff;color:#173976;font:500 12px var(--font)}
+.rp-review__actions{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:7px}
+.rp-review__actions button{border:1px solid #cad8f0;border-radius:9px;background:#f7faff;color:#153a7d;padding:9px 11px;font:600 11px var(--font)}
+.rp-review__actions button:hover{background:#e7f0ff}
+.rp-review__note{grid-column:1/-1;margin:1px 0 0;color:#74839a;line-height:1.6;font-size:10.5px}
+body.rp-locked{overflow:hidden}
+body.rp-locked .rp-review,body.rp-embedded .rp-review{visibility:hidden;pointer-events:none}
+body.rp-success #banner,body.rp-success #hidden-state{display:none!important}
+.rp-backdrop{position:fixed;inset:0;z-index:100;display:flex;justify-content:center;align-items:center;padding:16px;background:rgba(10,26,58,.57);-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px);overflow-y:auto;overscroll-behavior:contain}
+.rp-modal{box-sizing:border-box;position:relative;flex:0 1 548px;max-height:calc(100dvh - 32px);overflow-y:auto;width:100%;border:1px solid #e9eef8;border-radius:20px;background:#fff;color:#06266e;padding:35px 37px 25px;box-shadow:0 20px 70px #08214f3d;font-family:var(--font);-webkit-overflow-scrolling:touch;text-align:center}
+.rp-modal *{box-sizing:border-box}
+.rp-modal button{font-family:var(--font)}
+.rp-modal button:focus-visible,.rp-review button:focus-visible,.rp-review select:focus-visible{outline:3px solid #578af2;outline-offset:3px}
+.rp-x{position:absolute;top:18px;right:18px;width:36px;height:36px;display:grid;place-items:center;border-radius:10px;border:1px solid #dce4f2;background:#fff;color:#64748b;font-size:23px;line-height:1}
+.rp-x:hover{background:#f0f4fa}
+.rp-icon{width:73px;height:73px;display:grid;place-items:center;margin:6px auto 16px;border:1px solid #f5dade;border-radius:21px;color:#c8102e;background:linear-gradient(155deg,#fff0f2,#fffafb)}
+.rp-icon svg{width:39px;height:39px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.rp-icon--success{background:#e9f8f0;color:#07814d;border-color:#d5f1e0;font-size:38px;font-weight:700}
+.rp-icon--error{background:#fff2f4;color:#bc253f;border-color:#f7e1e5;font-size:34px;font-weight:700}
+.rp-eyebrow{margin:0 0 5px;font:700 12px var(--font);color:#b92341}
+.rp-title{font:700 28px/1.5 var(--font);letter-spacing:-.2px;color:#06266e;margin:0 auto;max-width:425px}
+.rp-desc{max-width:435px;margin:11px auto 22px;color:#65738c;font:400 14px/1.9 var(--font)}
+.rp-confidence{display:flex;align-items:center;text-align:right;gap:12px;margin:0 0 20px;padding:14px 15px;border:1px solid #dce5f6;border-radius:12px;background:#f6f9ff}
+.rp-confidence__icon{display:grid;place-items:center;flex:0 0 34px;width:34px;height:34px;border-radius:10px;background:#def2e7;color:#058047;font-size:20px}
+.rp-confidence strong{display:block;font-size:12.5px;line-height:1.65;color:#173c7c}.rp-confidence span{display:block;color:#7b8ba4;font-size:11px;line-height:1.6}
+.rp-primary{display:flex;align-items:center;justify-content:center;gap:11px;width:100%;min-height:55px;padding:12px 17px;border:0;border-radius:11px;color:#fff;background:linear-gradient(to right,#ce0b33 1%,#7d194e 49%,#082978 100%);box-shadow:0 8px 18px #0a286b24;font:700 17px var(--font)}
+.rp-primary:hover{filter:brightness(1.05)}.rp-primary:active{transform:translateY(1px)}
+.rp-secondary{display:block;margin:11px auto 0;padding:9px 12px;border:none;background:transparent;color:#64758f;font:600 12px var(--font)}
+.rp-secondary:hover{text-decoration:underline}
+.rp-step{text-align:right}.rp-step .rp-title,.rp-step .rp-desc{text-align:center}
+.rp-step__intro{margin-bottom:18px}.rp-step .rp-title{font-size:24px}.rp-step .rp-desc{font-size:12.5px;margin:7px auto 17px}
+.rp-section-title{font:700 12px var(--font);color:#163774;margin:17px 0 9px}
+.rp-plan-choices{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.rp-plan{display:flex;flex-direction:column;align-items:flex-start;text-align:right;gap:4px;min-height:89px;padding:12px;border-radius:12px;background:#fff;border:1px solid #d6dfef;color:#163875}
+.rp-plan[aria-pressed="true"]{border:2px solid #123d95;padding:11px;background:#f2f6ff;box-shadow:0 0 0 2px #123d950b}
+.rp-plan__label{font:700 13px var(--font)}.rp-plan__price{font:700 17px var(--font);direction:rtl}.rp-plan__caption{font:400 10px var(--font);color:#7c8aa2}
+.rp-summary{padding:11px 14px;border-radius:12px;border:1px solid #dbe5f5;background:#f6f9ff}
+.rp-summary__row{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:6px 0;font-size:12px;color:#65738b}
+.rp-summary__row + .rp-summary__row{border-top:1px solid #e7edf8}
+.rp-summary__row strong{color:#103876;font-weight:700;text-align:left}.rp-summary__row--price{font-weight:700}.rp-summary__row--price strong{font-size:16px}
+.rp-payment-options{display:grid;gap:7px}.rp-payment-option{display:flex;align-items:center;gap:11px;border:1px solid #dbe4f3;border-radius:10px;padding:11px 12px;cursor:pointer;font-size:12px;color:#203e75}
+.rp-payment-option:has(input:checked){background:#f2f6ff;border-color:#466bb2}
+.rp-payment-option input,.rp-save input{accent-color:#123d95;width:17px;height:17px;flex:none;margin:0}
+.rp-payment-option small{display:block;color:#8190a7;font-size:10px;margin-top:2px}
+.rp-save{display:flex;align-items:center;gap:9px;color:#66748b;font-size:11px;margin:10px 0 0}
+.rp-muted{text-align:center;margin:14px 0 11px;color:#8290a6;font-size:10px;line-height:1.7}
+.rp-feedback{margin:0 0 10px;padding:10px;border-radius:9px;background:#fff4f5;color:#ab1734;font:600 12px/1.65 var(--font)}
+.rp-checkout-actions{margin-top:16px}
+.rp-success-detail{padding:13px;border:1px solid #d8e8f2;background:#f6fbff;border-radius:11px;margin:0 0 19px;text-align:center;font:600 12px/1.8 var(--font);color:#19427a}
+.rp-success-detail strong{color:#10376d}
+.rp-ltr{direction:ltr;unicode-bidi:isolate;display:inline-block}
+.rp-phone-preview{position:fixed;inset:0;z-index:210;background:rgba(7,23,51,.86);display:flex;align-items:center;justify-content:center;padding:12px;gap:16px}
+.rp-phone__shell{width:406px;max-width:calc(100vw - 35px);height:min(860px,calc(100dvh - 26px));display:flex;flex-direction:column;background:#fafbfe;border:8px solid #1b2335;border-radius:43px;overflow:hidden;box-shadow:0 22px 65px #0008}
+.rp-phone__status{height:30px;min-height:30px;background:#fff;color:#101827;display:flex;align-items:center;justify-content:space-between;padding:0 23px;font:700 11px Arial,sans-serif;direction:ltr}
+.rp-phone__notch{width:95px;height:18px;border-radius:0 0 14px 14px;background:#1b2335;align-self:flex-start}
+.rp-phone__frame{display:block;flex:1;width:100%;border:0;background:#f7f9fd}
+.rp-phone__home{height:16px;min-height:16px;background:#fff;display:grid;place-items:center}
+.rp-phone__home:after{content:"";width:105px;height:4px;background:#1b2335;border-radius:50px}
+.rp-phone__exit{position:absolute;top:15px;right:16px;border:1px solid #fff6;border-radius:20px;background:#fff;color:#102d6b;padding:9px 14px;font:700 12px var(--font)}
+@media(max-width:600px){.rp-review{left:9px;bottom:calc(9px + env(safe-area-inset-bottom,0px));width:min(440px,calc(100vw - 18px))}.rp-review__inner{padding:12px;gap:9px}.rp-backdrop{padding:12px}.rp-modal{border-radius:17px;max-height:calc(100dvh - 24px);padding:38px 21px 23px}.rp-x{top:13px;right:13px;width:33px;height:33px}.rp-title{font-size:22px;line-height:1.55;letter-spacing:0}.rp-desc{font-size:12.5px;margin:8px auto 18px}.rp-icon{width:64px;height:64px;margin:0 auto 14px}.rp-confidence{padding:11px;gap:9px}.rp-confidence strong{font-size:11.3px}.rp-confidence span{font-size:10px}.rp-primary{min-height:51px;font-size:15.5px}.rp-step .rp-title{font-size:21px}.rp-step .rp-desc{font-size:11.5px}.rp-plan{padding:10px;min-height:80px}.rp-plan[aria-pressed="true"]{padding:9px}.rp-plan__price{font-size:15px}.rp-summary{padding:8px 11px}.rp-summary__row{font-size:11px;padding:5px 0}.rp-payment-option{padding:9px}.rp-phone__exit{top:3px;right:5px}}
+@media(prefers-reduced-motion:reduce){.rp-primary{transition:none}}
+
 </style>
 </head>
 <body>
@@ -170,6 +240,92 @@ button{font:inherit;cursor:pointer}button:focus-visible{outline:3px solid #4c84e
     <p class="footnote">نموذج تفاعلي للمراجعة فقط: زر التجديد يشرح المسار التالي دون تنفيذ أي عملية دفع.</p>
   </section>
 </main>
+
+<section class="rp-review" id="rp-review" data-open="false" aria-label="أدوات مراجعة نافذة تجديد الاشتراك">
+<button type="button" class="rp-review__toggle" id="rp-review-toggle" aria-expanded="false" aria-controls="rp-review-panel">⚙ مراجعة الـPopup</button>
+<div class="rp-review__inner" id="rp-review-panel" hidden>
+<p class="rp-review__title">جرّب حالات نافذة التجديد</p>
+<label class="rp-review__field">الصفحة
+<select id="rp-page"><option value="eligible">صفحة عادية</option><option value="exam">داخل اختبار</option><option value="practice">داخل تدريب</option><option value="result">صفحة النتيجة</option></select></label>
+<label class="rp-review__field">نتيجة الدفع التجريبية
+<select id="rp-payment"><option value="success">نجاح</option><option value="failure">فشل</option><option value="cancel">إلغاء</option></select></label>
+<label class="rp-review__field">عرض التصميم
+<select id="rp-device"><option value="desktop">كمبيوتر</option><option value="mobile">iPhone (390px)</option></select></label>
+<div class="rp-review__actions">
+<button type="button" id="rp-new-cycle">جرّب أول ظهور</button>
+<button type="button" id="rp-revisit">كرّر الزيارة</button>
+<button type="button" id="rp-open">افتح النافذة</button>
+<button type="button" id="rp-success">جرّب نجاح التجديد</button>
+</div>
+<p class="rp-review__note" id="rp-status" role="status">هذه أدوات معاينة فقط. كل الحالات تخص الاشتراكات المدفوعة.</p>
+</div></section>
+<div class="rp-backdrop" id="rp-backdrop" hidden>
+<section class="rp-modal" id="rp-dialog" role="dialog" aria-modal="true" aria-labelledby="rp-title" tabindex="-1">
+<button class="rp-x" id="rp-close" type="button" aria-label="إغلاق نافذة التجديد" title="إغلاق">×</button>
+<div id="rp-message-step">
+<div class="rp-icon" aria-hidden="true"><svg viewBox="0 0 40 40"><circle cx="20" cy="20" r="13"/><path d="M20 12v9l6 4"/><path d="M28 6l4-3M12 6L8 3"/></svg></div>
+<p class="rp-eyebrow">انتهى اشتراكك</p>
+<h2 id="rp-title" class="rp-title">اشتراكك خلص… طموحك لا! 😉</h2>
+<p class="rp-desc">خلنا نرجع للتدريب ونكمل استعدادك للاختبار. باقي لنا شغل حلو! 💪</p>
+<div class="rp-confidence"><div class="rp-confidence__icon" aria-hidden="true">✓</div><div>
+<strong>باقتك الجديدة تبدأ بعد تأكيد الدفع</strong>
+<span>التجديد على كيفك، وما فيه خصم تلقائي.</span>
+</div></div>
+<button type="button" class="rp-primary" id="rp-renew">جدّد اشتراكك <span aria-hidden="true">←</span></button>
+<button type="button" class="rp-secondary" id="rp-later">مو الحين</button>
+</div>
+<div id="rp-checkout-step" class="rp-step" hidden>
+<div class="rp-step__intro">
+<h2 id="rp-review-title" class="rp-title">باقتك الجاية؟ على كيفك 😎</h2>
+<p class="rp-desc">اختر اللي يناسبك، وشف السعر والتواريخ قبل ما تؤكد.</p>
+</div>
+<h3 class="rp-section-title">اختر مدة اشتراكك</h3>
+<div class="rp-plan-choices" role="group" aria-label="الباقات المتاحة">
+<button type="button" class="rp-plan" data-rp-plan="month" aria-pressed="true"><span class="rp-plan__label">شهر واحد</span><strong class="rp-plan__price"><bdi>199</bdi> ر.س</strong><small class="rp-plan__caption">استعد على راحتك</small></button>
+<button type="button" class="rp-plan" data-rp-plan="quarter" aria-pressed="false"><span class="rp-plan__label">3 أشهر</span><strong class="rp-plan__price"><bdi>399</bdi> ر.س</strong><small class="rp-plan__caption">وقت أطول للتدريب</small></button>
+</div>
+<h3 class="rp-section-title">تفاصيل تجديدك</h3>
+<div class="rp-summary" aria-live="polite">
+<div class="rp-summary__row"><span>الباقة</span><strong id="rp-plan-label">شهر واحد</strong></div>
+<div class="rp-summary__row rp-summary__row--price"><span>الإجمالي</span><strong id="rp-price">199 ر.س</strong></div>
+<div class="rp-summary__row"><span>تبدأ</span><strong id="rp-start">بعد تأكيد الدفع</strong></div>
+<div class="rp-summary__row"><span>تنتهي</span><strong id="rp-end">بعد شهر</strong></div>
+</div>
+<h3 class="rp-section-title">طريقة الدفع</h3>
+<div class="rp-payment-options">
+<label class="rp-payment-option"><input type="radio" name="rp-card" value="saved" checked><span><strong>بطاقتك المحفوظة <bdi>•••• 4242</bdi></strong><small>اخترها وكمّل بسرعة</small></span></label>
+<label class="rp-payment-option"><input type="radio" name="rp-card" value="new"><span><strong>بطاقة جديدة</strong><small>تقدر تستخدم بطاقة ثانية</small></span></label>
+</div>
+<label class="rp-save" id="rp-save-wrap" hidden><input type="checkbox" id="rp-save-card">احفظ البطاقة للمرة الجاية (اختياري)</label>
+<div class="rp-checkout-actions">
+<p class="rp-muted">تجربة توضيحية فقط، ما راح نخصم أي مبلغ.</p>
+<button type="button" class="rp-primary" id="rp-confirm">تأكيد ودفع <span aria-hidden="true">←</span></button>
+<button type="button" class="rp-secondary" id="rp-back">رجوع</button>
+</div>
+</div>
+<div id="rp-done-step" class="rp-step" hidden>
+<div class="rp-icon rp-icon--success" aria-hidden="true">✓</div>
+<p class="rp-eyebrow" style="text-align:center;color:#07814d">تم تجديد اشتراكك</p>
+<h2 id="rp-done-title" class="rp-title">كفو! رجعنا للتدريب 🎉</h2>
+<p class="rp-desc">اشتراكك صار جاهز… يلا نكمل من وين وقفنا! 😎</p>
+<div class="rp-success-detail" id="rp-done-text"></div>
+<button type="button" class="rp-primary" id="rp-return">يلا للرئيسية <span aria-hidden="true">←</span></button>
+</div>
+<div id="rp-error-step" class="rp-step" hidden>
+<div class="rp-icon rp-icon--error" aria-hidden="true">!</div>
+<h2 id="rp-error-title" class="rp-title"></h2>
+<p class="rp-desc" id="rp-error-text"></p>
+<button type="button" class="rp-primary" id="rp-try-again">خلّنا نجرب مرة ثانية <span aria-hidden="true">←</span></button>
+<button type="button" class="rp-secondary" id="rp-error-later">مو الحين</button>
+</div>
+</section></div>
+<div class="rp-phone-preview" id="rp-phone-preview" hidden aria-label="معاينة تفاعلية على شاشة iPhone">
+<button type="button" class="rp-phone__exit" id="rp-phone-exit">إغلاق معاينة iPhone ×</button>
+<div class="rp-phone__shell">
+<div class="rp-phone__status"><span>9:41</span><span class="rp-phone__notch" aria-hidden="true"></span><span aria-hidden="true">● ▂ ▰</span></div>
+<iframe id="rp-phone-frame" class="rp-phone__frame" title="النسخة التفاعلية على شاشة iPhone 390px"></iframe>
+<div class="rp-phone__home"></div>
+</div></div>
 <div id="toast" class="toast" role="status" hidden></div>
 <script>
 (()=>{
@@ -222,6 +378,153 @@ $('#restore').addEventListener('click',()=>{state.dismissUntil=0;try{localStorag
 $('#renew').addEventListener('click',()=>{toast('الخطوة التالية: مراجعة الباقة والسعر وتواريخها، ثم تأكيد الدفع يدويًا عبر Stripe. لا يُخصم أي مبلغ الآن.')});
 render();
 })();
+</script>
+<script>
+/* Renewal popup review behavior · intentionally independent of the approved banner controller */
+(()=>{
+'use strict';
+const q=id=>document.getElementById(id), qa=sel=>Array.from(document.querySelectorAll(sel));
+const params=new URLSearchParams(location.search);
+const PREFIX='goielts-renewal-popup-cycle-v2:', CYCLE_KEY='goielts-renewal-popup-demo-cycle-v2';
+const embedded=params.get('embedded')==='1';
+const RENEW_KEY='goielts-renewal-popup-demo-renewed-v2'+(embedded?'-phone':'');
+const store=(key,val)=>{try{localStorage.setItem(key,String(val))}catch(e){}};
+const read=key=>{try{return localStorage.getItem(key)}catch(e){return null}};
+const clear=key=>{try{localStorage.removeItem(key)}catch(e){}};
+let cycle=params.get('previewCycle')||read(CYCLE_KEY)||'expired-202610';
+let renewed=embedded?false:read(RENEW_KEY)==='1';
+let active=false,step='message',plan='month',previousFocus=null,cycleCounter=0,toolPageChange=false;
+if(embedded)document.body.classList.add('rp-embedded');
+if(['success','failure','cancel'].includes(params.get('outcome')))q('rp-payment').value=params.get('outcome');
+const key=()=>PREFIX+cycle;
+const report=msg=>{q('rp-status').textContent=msg};
+const expired=()=>document.querySelector('[data-subscription="expired"]')?.getAttribute('aria-pressed')==='true';
+const eligible=()=>q('rp-page').value==='eligible'&&document.querySelector('[data-page="eligible"]')?.getAttribute('aria-pressed')==='true';
+const isSeen=()=>read(key())==='1';
+function setStep(value){
+ step=value;
+ for(const name of ['message','checkout','done','error'])q('rp-'+(name==='message'?'message':name==='checkout'?'checkout':name==='done'?'done':'error')+'-step').hidden=(value!==name);
+ const head={message:'rp-title',checkout:'rp-review-title',done:'rp-done-title',error:'rp-error-title'};
+ q('rp-dialog').setAttribute('aria-labelledby',head[value]);q('rp-dialog').scrollTop=0;
+}
+function openPopup(force=false){
+ if(active||renewed||!expired()||!eligible()||(!force&&isSeen()))return false;
+ if(!force)store(key(),'1');
+ previousFocus=document.activeElement;active=true;q('rp-backdrop').hidden=false;document.body.classList.add('rp-locked');setStep('message');
+ q('rp-dialog').focus({preventScroll:true});report('ظهر تنبيه الاشتراك المنتهي مرة واحدة.');return true;
+}
+function closePopup(){
+ if(!active)return;
+ active=false;q('rp-backdrop').hidden=true;document.body.classList.remove('rp-locked');
+ if(previousFocus&&previousFocus.isConnected&&typeof previousFocus.focus==='function')previousFocus.focus();
+ report('تم إغلاق النافذة. لن تظهر تلقائيًا لنفس انتهاء الاشتراك.');
+}
+function reevaluate(){
+ /* Numeral normalization explicitly requested: visual digits only, without editing the approved banner copy or controller. */
+ for(const id of ['banner-heading','banner-message','banner-support']){const node=q(id);if(node)node.textContent=fmtDigits(node.textContent);}
+ document.body.classList.toggle('rp-success',renewed);
+ if(active&&(!eligible()||!expired()))closePopup();
+ if(!active&&!renewed&&eligible()&&expired())openPopup();
+}
+function fmtDigits(text){return String(text).replace(/[٠-٩۰-۹]/g,c=>String(c.charCodeAt(0)>=0x06F0?c.charCodeAt(0)-0x06F0:c.charCodeAt(0)-0x0660));}
+function formatDate(date){return fmtDigits(new Intl.DateTimeFormat('ar-SA',{calendar:'gregory',numberingSystem:'latn',timeZone:'Asia/Riyadh',day:'numeric',month:'long',year:'numeric'}).format(date));}
+function addMonths(date,months){const end=new Date(date);const day=end.getDate();end.setDate(1);end.setMonth(end.getMonth()+months);const max=new Date(end.getFullYear(),end.getMonth()+1,0).getDate();end.setDate(Math.min(day,max));return end;}
+function selectedPlan(){return plan==='month'?{label:'شهر واحد',price:199,months:1}:{label:'3 أشهر',price:399,months:3};}
+function getDates(){const start=new Date();const end=addMonths(start,selectedPlan().months);return {start,end};}
+function refreshPlan(){
+ const current=selectedPlan(),dates=getDates();
+ qa('[data-rp-plan]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.rpPlan===plan)));
+ q('rp-plan-label').textContent=current.label;
+ q('rp-price').textContent=current.price.toLocaleString('en-US')+' ر.س';
+ q('rp-start').textContent=formatDate(dates.start);
+ q('rp-end').textContent=formatDate(dates.end);
+}
+function complete(){
+ renewed=true;store(RENEW_KEY,'1');document.body.classList.add('rp-success');setStep('done');
+ q('rp-done-text').textContent='باقة '+selectedPlan().label+' مفعّلة حتى '+formatDate(getDates().end)+'.';
+ report('نجاح تجريبي: انتهت تنبيهات الاشتراك السابق، والمدة الجديدة ظهرت في التأكيد.');
+}
+function showFailure(outcome){
+ const cancelled=outcome==='cancel';
+ q('rp-error-title').textContent=cancelled?'تمام، نكمّل بعدين 🙌':'أوف! الدفع ما ضبط 😅';
+ q('rp-error-text').textContent=cancelled?'ألغيت العملية، واشتراكك ما تغيّر. التجديد ينتظرك وقت ما يناسبك.':'ما اكتمل الدفع، واشتراكك ما تغيّر. عادي، نجرّب مرة ثانية!';
+ q('rp-try-again').textContent=cancelled?'أرجع لخيارات التجديد':'خلّنا نجرب مرة ثانية';
+ setStep('error');report('نتيجة دفع تجريبية: '+(cancelled?'إلغاء':'فشل')+'؛ حالة الاشتراك بقيت دون تغيير.');
+}
+function showCheckout(){refreshPlan();setStep('checkout');q('rp-dialog').focus({preventScroll:true});q('rp-dialog').scrollTop=0;}
+q('rp-renew').addEventListener('click',showCheckout);
+q('rp-close').addEventListener('click',closePopup);q('rp-later').addEventListener('click',closePopup);
+q('rp-back').addEventListener('click',()=>setStep('message'));
+q('rp-confirm').addEventListener('click',()=>{const outcome=q('rp-payment').value;if(outcome==='success')complete();else showFailure(outcome);});
+q('rp-try-again').addEventListener('click',showCheckout);q('rp-error-later').addEventListener('click',closePopup);
+q('rp-return').addEventListener('click',closePopup);
+qa('[data-rp-plan]').forEach(b=>b.addEventListener('click',()=>{plan=b.dataset.rpPlan;refreshPlan()}));
+qa('[name="rp-card"]').forEach(r=>r.addEventListener('change',()=>{q('rp-save-wrap').hidden=document.querySelector('[name="rp-card"]:checked')?.value!=='new'}));
+q('rp-review-toggle').addEventListener('click',()=>{
+ const open=q('rp-review-panel').hidden;q('rp-review-panel').hidden=!open;q('rp-review').dataset.open=String(open);
+ q('rp-review-toggle').setAttribute('aria-expanded',String(open));
+});
+function newCycle(){
+ if(active)closePopup();
+ cycle='demo-'+Date.now()+'-'+(++cycleCounter);store(CYCLE_KEY,cycle);renewed=false;clear(RENEW_KEY);
+ document.body.classList.remove('rp-success');
+ const expiryButton=document.querySelector('[data-subscription="expired"]');
+ if(!expired())expiryButton.click();
+ queueMicrotask(()=>{if(!openPopup())report('ما ظهر التنبيه: الصفحة الحالية مستثناة أو غير مؤهلة. اختر صفحة عادية.')});
+}
+q('rp-new-cycle').addEventListener('click',newCycle);
+q('rp-revisit').addEventListener('click',()=>{
+ if(active)closePopup();
+ if(!openPopup())report('زيارة ثانية: التنبيه ما تكرر، وهذا هو السلوك المطلوب.');
+});
+q('rp-open').addEventListener('click',()=>{
+ if(active)closePopup();
+ if(!openPopup(true))report('غيّر حالة الاشتراك إلى «بعد الانتهاء» واختر «صفحة عادية» أولًا.');
+});
+q('rp-success').addEventListener('click',()=>{
+ if(!active){document.querySelector('[data-subscription="expired"]').click();q('rp-page').value='eligible';document.querySelector('[data-page="eligible"]').click();q('rp-backdrop').hidden=false;active=true;document.body.classList.add('rp-locked');}
+ complete();
+});
+q('rp-page').addEventListener('change',()=>{
+ toolPageChange=true;
+ document.querySelector(q('rp-page').value==='eligible'?'[data-page="eligible"]':'[data-page="excluded"]').click();
+ toolPageChange=false;queueMicrotask(reevaluate);
+});
+qa('[data-subscription],[data-page]').forEach(b=>b.addEventListener('click',()=>{
+ if(b.dataset.page&&!toolPageChange)q('rp-page').value=b.dataset.page==='eligible'?'eligible':'exam';
+ queueMicrotask(reevaluate);
+}));
+document.addEventListener('keydown',event=>{
+ if(!active)return;
+ if(event.key==='Escape'){event.preventDefault();closePopup();return;}
+ if(event.key!=='Tab')return;
+ const tabs=qa('#rp-dialog button,#rp-dialog input').filter(el=>!el.disabled&&!el.hidden&&el.getClientRects().length>0);
+ const i=tabs.indexOf(document.activeElement);
+ if(!tabs.length)return;
+ if(event.shiftKey&&i===0){event.preventDefault();tabs[tabs.length-1].focus();}
+ if(!event.shiftKey&&i===tabs.length-1){event.preventDefault();tabs[0].focus();}
+});
+q('rp-backdrop').addEventListener('click',event=>{if(event.target===q('rp-backdrop'))closePopup()});
+function closePhone(){q('rp-phone-preview').hidden=true;q('rp-phone-frame').removeAttribute('src');q('rp-device').value='desktop';}
+function openPhone(){
+ if(innerWidth<650){report('أنت على شاشة جوال، والنافذة تظهر بحجمها الحقيقي.');return;}
+ if(active)closePopup();
+ q('rp-phone-preview').hidden=false;
+ const link=new URL(location.href);
+ link.search='';link.searchParams.set('start','popup');link.searchParams.set('embedded','1');
+ link.searchParams.set('previewCycle','phone-'+Date.now()+'-'+(++cycleCounter));
+ link.searchParams.set('outcome',q('rp-payment').value);
+ q('rp-phone-frame').src=link.pathname+link.search;
+}
+q('rp-phone-exit').addEventListener('click',closePhone);
+q('rp-device').addEventListener('change',()=>{if(q('rp-device').value==='mobile')openPhone();else closePhone()});
+q('rp-payment').addEventListener('change',()=>{if(!q('rp-phone-preview').hidden)openPhone()});
+document.body.classList.toggle('rp-success',renewed);
+queueMicrotask(reevaluate);
+if(params.get('view')==='iphone'&&!embedded&&innerWidth>=650){q('rp-device').value='mobile';openPhone();}
+else if(params.get('start')==='popup'){document.querySelector('[data-subscription="expired"]').click();}
+})();
+
 </script>
 </body>
 </html>
