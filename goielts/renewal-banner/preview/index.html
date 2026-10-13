@@ -420,6 +420,8 @@ function closePopup(){
  report('تم إغلاق النافذة. لن تظهر تلقائيًا لنفس انتهاء الاشتراك.');
 }
 function reevaluate(){
+ /* Numeral normalization explicitly requested: visual digits only, without editing the approved banner copy or controller. */
+ for(const id of ['banner-heading','banner-message','banner-support']){const node=q(id);if(node)node.textContent=fmtDigits(node.textContent);}
  document.body.classList.toggle('rp-success',renewed);
  if(active&&(!eligible()||!expired()))closePopup();
  if(!active&&!renewed&&eligible()&&expired())openPopup();
