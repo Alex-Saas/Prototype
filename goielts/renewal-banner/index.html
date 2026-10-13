@@ -323,7 +323,7 @@ q('rp-confirm').onclick=()=>{const outcome=q('rp-payment').value;if(outcome==='s
 q('rp-return').onclick=closePopup;
 qa('[data-rp-plan]').forEach(x=>x.addEventListener('click',()=>{plan=x.dataset.rpPlan;refreshPlan()}));
 qa('[name="rp-card"]').forEach(x=>x.addEventListener('change',()=>{q('rp-save-wrap').hidden=document.querySelector('[name="rp-card"]:checked').value!=='new'}));
-q('rp-new-cycle').onclick=()=>{cycle='demo-'+Date.now();set(CYCLE_KEY,cycle);renewed=false;localStorage.removeItem(RENEW_KEY);document.body.classList.remove('rp-success');q('rp-account').value='paid';q('rp-page').value='eligible';document.querySelector('[data-page="eligible"]').click();document.querySelector('[data-subscription="expired"]').click();queueMicrotask(()=>{if(!open)openPopup(false)});};
+q('rp-new-cycle').onclick=()=>{cycle='demo-'+Date.now();set(CYCLE_KEY,cycle);renewed=false;localStorage.removeItem(RENEW_KEY);document.body.classList.remove('rp-success');q('rp-account').value='paid';document.querySelector('[data-subscription="expired"]').click();queueMicrotask(()=>{if(!open)openPopup(false)});};
 q('rp-revisit').onclick=()=>{if(open)closePopup();const shown=openPopup();if(!shown)status('زيارة جديدة: لم تتكرر النافذة؛ إما ظهرت سابقًا أو الصفحة غير مؤهلة أو الاشتراك تجدد.')};
 q('rp-open').onclick=()=>{if(open)closePopup();if(!openPopup(true))status('هذه الحالة لا تسمح بظهور النافذة. اختر حسابًا مدفوعًا واشتراكًا منتهيًا وصفحة عادية.')};
 q('rp-success').onclick=()=>{if(!open){document.querySelector('[data-subscription="expired"]').click();q('rp-account').value='paid';q('rp-page').value='eligible';openPopup(true)}complete()};
