@@ -241,43 +241,91 @@ body.rp-success #banner,body.rp-success #hidden-state{display:none!important}
   </section>
 </main>
 
-<section class="rp-review" id="rp-review" aria-label="أدوات تجربة تنبيه انتهاء الاشتراك"><div class="rp-review__inner">
-<span class="rp-review__title">تجربة نافذة التجديد</span>
-<label>نوع الحساب <select id="rp-account"><option value="paid">مدفوع</option><option value="free">مجاني</option></select></label>
-<label>الصفحة <select id="rp-page"><option value="eligible">صفحة عادية</option><option value="exam">أثناء الامتحان</option><option value="practice">أثناء التدريب</option><option value="result">صفحة النتيجة</option></select></label>
-<label>نتيجة الدفع <select id="rp-payment"><option value="success">نجاح تجريبي</option><option value="failure">فشل تجريبي</option><option value="cancel">إلغاء تجريبي</option></select></label>
-<button id="rp-new-cycle" type="button">جرّب أول ظهور</button><button id="rp-revisit" type="button">كرّر الزيارة</button><button id="rp-open" type="button">إظهار النافذة للمراجعة</button><button id="rp-success" type="button">محاكاة نجاح التجديد</button>
-<p class="rp-review__hint" id="rp-status" role="status">عند انتهاء الاشتراك تظهر النافذة مرة واحدة فقط في صفحة مؤهلة. أدوات هذه المنطقة للمراجعة وليست واجهة الطالب.</p>
+<section class="rp-review" id="rp-review" data-open="false" aria-label="أدوات مراجعة نافذة تجديد الاشتراك">
+<button type="button" class="rp-review__toggle" id="rp-review-toggle" aria-expanded="false" aria-controls="rp-review-panel">⚙ مراجعة الـPopup</button>
+<div class="rp-review__inner" id="rp-review-panel" hidden>
+<p class="rp-review__title">جرّب حالات نافذة التجديد</p>
+<label class="rp-review__field">الصفحة
+<select id="rp-page"><option value="eligible">صفحة عادية</option><option value="exam">داخل اختبار</option><option value="practice">داخل تدريب</option><option value="result">صفحة النتيجة</option></select></label>
+<label class="rp-review__field">نتيجة الدفع التجريبية
+<select id="rp-payment"><option value="success">نجاح</option><option value="failure">فشل</option><option value="cancel">إلغاء</option></select></label>
+<label class="rp-review__field">عرض التصميم
+<select id="rp-device"><option value="desktop">كمبيوتر</option><option value="mobile">iPhone (390px)</option></select></label>
+<div class="rp-review__actions">
+<button type="button" id="rp-new-cycle">جرّب أول ظهور</button>
+<button type="button" id="rp-revisit">كرّر الزيارة</button>
+<button type="button" id="rp-open">افتح النافذة</button>
+<button type="button" id="rp-success">جرّب نجاح التجديد</button>
+</div>
+<p class="rp-review__note" id="rp-status" role="status">هذه أدوات معاينة فقط. كل الحالات تخص الاشتراكات المدفوعة.</p>
 </div></section>
 <div class="rp-backdrop" id="rp-backdrop" hidden>
 <section class="rp-modal" id="rp-dialog" role="dialog" aria-modal="true" aria-labelledby="rp-title" tabindex="-1">
-<button class="rp-x" id="rp-close" aria-label="إغلاق النافذة" title="إغلاق">×</button>
+<button class="rp-x" id="rp-close" type="button" aria-label="إغلاق نافذة التجديد" title="إغلاق">×</button>
 <div id="rp-message-step">
 <div class="rp-icon" aria-hidden="true"><svg viewBox="0 0 40 40"><circle cx="20" cy="20" r="13"/><path d="M20 12v9l6 4"/><path d="M28 6l4-3M12 6L8 3"/></svg></div>
-<p class="rp-eyebrow">انتهى اشتراكك</p><h2 id="rp-title">المشوار ما خلص هنا!</h2>
-<p class="rp-desc" id="rp-description">اشتراكك انتهى، بس قدّامك فرص كثيرة تتدرّب وتجهّز للاختبار. يلا نكمّل!</p>
-<div class="rp-confidence"><div class="rp-confidence__check" aria-hidden="true">✓</div><div><strong>تبدأ باقتك الجديدة بعد تأكيد الدفع</strong><span>التجديد باختيارك، وما فيه خصم تلقائي.</span></div></div>
+<p class="rp-eyebrow">انتهى اشتراكك</p>
+<h2 id="rp-title" class="rp-title">اشتراكك خلص… طموحك لا! 😉</h2>
+<p class="rp-desc">خلنا نرجع للتدريب ونكمل استعدادك للاختبار. باقي لنا شغل حلو! 💪</p>
+<div class="rp-confidence"><div class="rp-confidence__icon" aria-hidden="true">✓</div><div>
+<strong>باقتك الجديدة تبدأ بعد تأكيد الدفع</strong>
+<span>التجديد على كيفك، وما فيه خصم تلقائي.</span>
+</div></div>
 <button type="button" class="rp-primary" id="rp-renew">جدّد اشتراكك <span aria-hidden="true">←</span></button>
 <button type="button" class="rp-secondary" id="rp-later">مو الحين</button>
 </div>
-<div class="rp-step" id="rp-checkout-step" hidden>
-<h2 id="rp-review-title">راجع تجديد اشتراكك</h2><p class="rp-muted">تقدر تختار الباقة المناسبة، والدفع ما يتم إلا بعد تأكيدك.</p>
-<div class="rp-plan-choices" role="group" aria-label="اختيار الباقة"><button type="button" data-rp-plan="month" aria-pressed="true">باقة شهر</button><button type="button" data-rp-plan="quarter" aria-pressed="false">باقة ٣ أشهر</button></div>
-<div class="rp-review-detail" id="rp-plan-details"></div>
-<label class="rp-card"><input type="radio" name="rp-card" value="saved" checked>بطاقة محفوظة تنتهي بـ ٤٢٤٢</label>
-<label class="rp-card"><input type="radio" name="rp-card" value="new">استخدم بطاقة جديدة</label>
-<label class="rp-card" id="rp-save-wrap" hidden><input type="checkbox" id="rp-save-card">احفظ بطاقتي للتجديدات القادمة</label>
-<p class="rp-muted">هذه معاينة فقط. الأسعار وبيانات البطاقة تجريبية، ولن تُخصم أي مبالغ.</p>
-<p class="rp-feedback" id="rp-feedback" hidden></p>
-<button type="button" class="rp-primary" id="rp-confirm">تأكيد ودفع (تجريبي)</button>
+<div id="rp-checkout-step" class="rp-step" hidden>
+<div class="rp-step__intro">
+<h2 id="rp-review-title" class="rp-title">باقتك الجاية؟ على كيفك 😎</h2>
+<p class="rp-desc">اختر اللي يناسبك، وشف السعر والتواريخ قبل ما تؤكد.</p>
+</div>
+<h3 class="rp-section-title">اختر مدة اشتراكك</h3>
+<div class="rp-plan-choices" role="group" aria-label="الباقات المتاحة">
+<button type="button" class="rp-plan" data-rp-plan="month" aria-pressed="true"><span class="rp-plan__label">شهر واحد</span><strong class="rp-plan__price"><bdi>199</bdi> ر.س</strong><small class="rp-plan__caption">استعد على راحتك</small></button>
+<button type="button" class="rp-plan" data-rp-plan="quarter" aria-pressed="false"><span class="rp-plan__label">3 أشهر</span><strong class="rp-plan__price"><bdi>399</bdi> ر.س</strong><small class="rp-plan__caption">وقت أطول للتدريب</small></button>
+</div>
+<h3 class="rp-section-title">تفاصيل تجديدك</h3>
+<div class="rp-summary" aria-live="polite">
+<div class="rp-summary__row"><span>الباقة</span><strong id="rp-plan-label">شهر واحد</strong></div>
+<div class="rp-summary__row rp-summary__row--price"><span>الإجمالي</span><strong id="rp-price">199 ر.س</strong></div>
+<div class="rp-summary__row"><span>تبدأ</span><strong id="rp-start">بعد تأكيد الدفع</strong></div>
+<div class="rp-summary__row"><span>تنتهي</span><strong id="rp-end">بعد شهر</strong></div>
+</div>
+<h3 class="rp-section-title">طريقة الدفع</h3>
+<div class="rp-payment-options">
+<label class="rp-payment-option"><input type="radio" name="rp-card" value="saved" checked><span><strong>بطاقتك المحفوظة <bdi>•••• 4242</bdi></strong><small>اخترها وكمّل بسرعة</small></span></label>
+<label class="rp-payment-option"><input type="radio" name="rp-card" value="new"><span><strong>بطاقة جديدة</strong><small>تقدر تستخدم بطاقة ثانية</small></span></label>
+</div>
+<label class="rp-save" id="rp-save-wrap" hidden><input type="checkbox" id="rp-save-card">احفظ البطاقة للمرة الجاية (اختياري)</label>
+<div class="rp-checkout-actions">
+<p class="rp-muted">تجربة توضيحية فقط، ما راح نخصم أي مبلغ.</p>
+<button type="button" class="rp-primary" id="rp-confirm">تأكيد ودفع <span aria-hidden="true">←</span></button>
 <button type="button" class="rp-secondary" id="rp-back">رجوع</button>
 </div>
-<div class="rp-step" id="rp-done-step" hidden style="text-align:center">
-<div class="rp-icon" aria-hidden="true" style="color:#087e46;background:#e9f8f0">✓</div>
-<h2 id="rp-done-title">تم تجديد اشتراكك!</h2>
-<p class="rp-desc" id="rp-done-text"></p><button type="button" class="rp-primary" id="rp-return">العودة للرئيسية</button>
+</div>
+<div id="rp-done-step" class="rp-step" hidden>
+<div class="rp-icon rp-icon--success" aria-hidden="true">✓</div>
+<p class="rp-eyebrow" style="text-align:center;color:#07814d">تم تجديد اشتراكك</p>
+<h2 id="rp-done-title" class="rp-title">كفو! رجعنا للتدريب 🎉</h2>
+<p class="rp-desc">اشتراكك صار جاهز… يلا نكمل من وين وقفنا! 😎</p>
+<div class="rp-success-detail" id="rp-done-text"></div>
+<button type="button" class="rp-primary" id="rp-return">يلا للرئيسية <span aria-hidden="true">←</span></button>
+</div>
+<div id="rp-error-step" class="rp-step" hidden>
+<div class="rp-icon rp-icon--error" aria-hidden="true">!</div>
+<h2 id="rp-error-title" class="rp-title"></h2>
+<p class="rp-desc" id="rp-error-text"></p>
+<button type="button" class="rp-primary" id="rp-try-again">خلّنا نجرب مرة ثانية <span aria-hidden="true">←</span></button>
+<button type="button" class="rp-secondary" id="rp-error-later">مو الحين</button>
 </div>
 </section></div>
+<div class="rp-phone-preview" id="rp-phone-preview" hidden aria-label="معاينة تفاعلية على شاشة iPhone">
+<button type="button" class="rp-phone__exit" id="rp-phone-exit">إغلاق معاينة iPhone ×</button>
+<div class="rp-phone__shell">
+<div class="rp-phone__status"><span>9:41</span><span class="rp-phone__notch" aria-hidden="true"></span><span aria-hidden="true">● ▂ ▰</span></div>
+<iframe id="rp-phone-frame" class="rp-phone__frame" title="النسخة التفاعلية على شاشة iPhone 390px"></iframe>
+<div class="rp-phone__home"></div>
+</div></div>
 <div id="toast" class="toast" role="status" hidden></div>
 <script>
 (()=>{
