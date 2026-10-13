@@ -150,7 +150,7 @@ body.rp-success #banner,body.rp-success #hidden-state{display:none!important}
 .rp-success-detail strong{color:#10376d}
 .rp-ltr{direction:ltr;unicode-bidi:isolate;display:inline-block}
 .rp-phone-preview{position:fixed;inset:0;z-index:210;background:rgba(7,23,51,.86);display:flex;align-items:center;justify-content:center;padding:12px;gap:16px}
-.rp-phone__shell{width:408px;max-width:calc(100vw - 35px);height:min(860px,calc(100dvh - 26px));display:flex;flex-direction:column;background:#fafbfe;border:8px solid #1b2335;border-radius:43px;overflow:hidden;box-shadow:0 22px 65px #0008}
+.rp-phone__shell{width:406px;max-width:calc(100vw - 35px);height:min(860px,calc(100dvh - 26px));display:flex;flex-direction:column;background:#fafbfe;border:8px solid #1b2335;border-radius:43px;overflow:hidden;box-shadow:0 22px 65px #0008}
 .rp-phone__status{height:30px;min-height:30px;background:#fff;color:#101827;display:flex;align-items:center;justify-content:space-between;padding:0 23px;font:700 11px Arial,sans-serif;direction:ltr}
 .rp-phone__notch{width:95px;height:18px;border-radius:0 0 14px 14px;background:#1b2335;align-self:flex-start}
 .rp-phone__frame{display:block;flex:1;width:100%;border:0;background:#f7f9fd}
@@ -411,7 +411,7 @@ function openPopup(force=false){
  if(active||renewed||!expired()||!eligible()||(!force&&isSeen()))return false;
  if(!force)store(key(),'1');
  previousFocus=document.activeElement;active=true;q('rp-backdrop').hidden=false;document.body.classList.add('rp-locked');setStep('message');
- q('rp-close').focus();report('ظهر تنبيه الاشتراك المنتهي مرة واحدة.');return true;
+ q('rp-dialog').focus({preventScroll:true});report('ظهر تنبيه الاشتراك المنتهي مرة واحدة.');return true;
 }
 function closePopup(){
  if(!active)return;
@@ -449,7 +449,7 @@ function showFailure(outcome){
  q('rp-try-again').textContent=cancelled?'أرجع لخيارات التجديد':'خلّنا نجرب مرة ثانية';
  setStep('error');report('نتيجة دفع تجريبية: '+(cancelled?'إلغاء':'فشل')+'؛ حالة الاشتراك بقيت دون تغيير.');
 }
-function showCheckout(){refreshPlan();setStep('checkout');q('rp-confirm').focus();}
+function showCheckout(){refreshPlan();setStep('checkout');q('rp-dialog').focus({preventScroll:true});q('rp-dialog').scrollTop=0;}
 q('rp-renew').addEventListener('click',showCheckout);
 q('rp-close').addEventListener('click',closePopup);q('rp-later').addEventListener('click',closePopup);
 q('rp-back').addEventListener('click',()=>setStep('message'));
