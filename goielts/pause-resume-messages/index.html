@@ -65,7 +65,9 @@ button,select{font-family:inherit} button{cursor:pointer}button:focus-visible,se
 .deadline-label{display:flex;flex-direction:column;gap:4px}.deadline-label span{font-size:11px;color:#6c7b94}.deadline-label strong{font-size:13px;color:#20457f;font-weight:700}
 .deadline-value{display:flex;align-items:baseline;gap:5px;color:#113e88;white-space:nowrap}.deadline-value b{font-family:var(--font);font-size:27px;font-weight:700;line-height:1.25;font-variant-numeric:tabular-nums}.deadline-value small{font-size:12px;font-weight:600}
 .modal[data-case=urgent] .deadline{background:#fff6f4;border-color:#efd5d3}
-.modal[data-case=urgent] .deadline-value{color:#ae293b;white-space:normal;font-weight:700;max-width:215px;text-align:left;line-height:1.55;font-size:12px}
+.modal[data-case=urgent] .deadline{justify-content:center;padding:15px 17px}
+.modal[data-case=urgent] .deadline-label{display:none}
+.modal[data-case=urgent] .deadline-value{color:#ae293b;white-space:normal;font-weight:700;width:100%;max-width:none;text-align:center;justify-content:center;line-height:1.55;font-size:14px}
 .cta{width:100%;min-height:50px;border-radius:9px;border:0;background:#08276f;color:#fff;font-size:15px;font-weight:700;display:flex;align-items:center;justify-content:center;gap:9px;transition:background .16s,transform .16s;box-shadow:0 6px 15px rgba(4,31,99,.12)}
 .cta svg{height:18px;width:18px;stroke:currentColor;stroke-width:2;fill:none;stroke-linecap:round;stroke-linejoin:round}
 .cta:hover{background:#17438a}.cta:active{transform:scale(.995)}
@@ -114,7 +116,6 @@ button,select{font-family:inherit} button{cursor:pointer}button:focus-visible,se
      <div class="stats" id="stats" hidden><div class="stats-head"><span>أنجزت <bdi dir="ltr">16</bdi> من <bdi dir="ltr">24</bdi> سؤال</span><strong dir="ltr">67%</strong></div><div class="bar"><span></span></div></div>
      <div class="deadline" id="deadline" hidden><div class="deadline-label"><span>المهلة المتبقية للاستكمال</span><strong id="deadlineHelper">لسّه عندك وقت تكمل</strong></div><div class="deadline-value" id="deadlineValue"><bdi dir="ltr"><b>21</b></bdi><small>ساعة</small></div></div>
      <button id="resume" class="cta" type="button">متابعة الاختبار <svg viewBox="0 0 24 24"><path d="M18 12H6m6 6-6-6 6-6"/></svg></button>
-     <p class="modal-foot" id="footNote">نفس تقدمك، ونفس الوقت المتبقي.</p>
     </article>
     <div class="result" id="result" hidden role="status"><div class="result-icon">✓</div><h3>تمام، رجعنا للاختبار</h3><p>هذي محاكاة للمراجعة فقط — ما بدأ اختبار حقيقي.</p></div>
    </div>
@@ -135,7 +136,7 @@ const icons={
 const $=id=>document.getElementById(id);
 const state={type:'short',mode:'practice',device:'desktop',continued:false};
 const texts={
- practice:{short:{meta:'تكملة التدريب',title:'يلا نكمل من وين وقفنا؟',description:'كل إجاباتك محفوظة، والعدّاد موقف معك. يلا نرجع نكمّل المشوار!',foot:'نفس تقدمك، ونفس الوقت المتبقي.'},long:{meta:'تكملة التدريب',title:'رجعت بالسلامة! نكمل؟',description:'اختبارك محفوظ، ولا سؤال راح عليك. باقي لك وقت تكمل اللي بدأته، خلّنا نواصل!',foot:'المهلة تظهر بالساعات الكاملة، بدون عدّاد حي.'},urgent:{meta:'مهلة الاستكمال',title:'الوقت يداهمنا… يلا نكمل!',description:'إجاباتك محفوظة، بس مهلة الاستكمال قربت تخلص. الأفضل ترجع الحين!',foot:'الوقت المتبقي أقل من ساعة.'}},
+ practice:{short:{meta:'تكملة التدريب',title:'يلا نكمل من وين وقفنا؟',description:'كل إجاباتك محفوظة، والعدّاد موقف معك. يلا نرجع نكمّل المشوار!',foot:'نفس تقدمك، ونفس الوقت المتبقي.'},long:{meta:'تكملة التدريب',title:'رجعت بالسلامة! نكمل؟',description:'اختبارك محفوظ، ولا سؤال راح عليك. باقي لك وقت تكمل اللي بدأته، خلّنا نواصل!',foot:'المهلة تظهر بالساعات الكاملة، بدون عدّاد حي.'},urgent:{meta:'مهلة الاستكمال',title:'باقي شوي على المهلة… نلحقها؟',description:'إجاباتك محفوظة، بس مهلة الاستكمال قربت تخلص. الأفضل ترجع الحين!',foot:'الوقت المتبقي أقل من ساعة.'}},
  exam:{short:{meta:'العودة إلى الامتحان',title:'جاهز ترجع للامتحان؟',description:'إجاباتك محفوظة والوقت متوقف. خلّ تركيزك هنا وقلّل التنقل بين التطبيقات عشان تكمّل على رواق.',foot:'هذي النافذة تظهر مرة واحدة في المحاولة.'},long:{meta:'العودة إلى الامتحان',title:'امتحانك ينتظرك، نكمل؟',description:'تقدمك محفوظ، وعندك فرصة تكمل من نفس المكان. خلّ تركيزك هنا وخلصها بهدوء.',foot:'النافذة ما راح تتكرر في المحاولة.'},urgent:{meta:'مهلة استكمال الامتحان',title:'باقي شوي على المهلة!',description:'امتحانك محفوظ، بس مهلة الاستكمال قربت تنتهي. نرجع نكمل قبل يفوت الوقت.',foot:'النافذة ما راح تتكرر في المحاولة.'}}
 };
 function render(){
@@ -147,7 +148,7 @@ function render(){
  $('reset').hidden=!state.continued;
  $('messageSelect').value=type;
  $('iconTile').innerHTML=icons[type];
- $('meta').textContent=copy.meta;$('title').textContent=copy.title;$('description').textContent=copy.description;$('footNote').textContent=copy.foot;
+ $('meta').textContent=copy.meta;$('title').textContent=copy.title;$('description').textContent=copy.description;
  $('stats').hidden=type==='short';$('deadline').hidden=type==='short';$('softNote').hidden=type!=='short';
  $('deadlineHelper').textContent=type==='urgent'?'مهلتك قربت تخلص':'لسّه عندك وقت تكمل';
  $('deadlineValue').innerHTML=type==='urgent'?'باقي أقل من ساعة لاستكمال اختبارك':'<bdi dir="ltr"><b>21</b></bdi><small>ساعة</small>';
