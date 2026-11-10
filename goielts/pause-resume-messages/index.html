@@ -149,10 +149,10 @@ function render(){
  }
  $('previewTitle').textContent=({desktop:'Desktop',tablet:'Tablet',mobile:'Mobile'}[state.device])+' — '+msg.label;
  $('stateLabel').textContent=msg.label;$('stateExplain').textContent=msg.explain;
- document.querySelectorAll('[data-device]').forEach(el=>el.setAttribute('aria-pressed',String(el.dataset.device===state.device)));
+ document.querySelectorAll('button[data-device]').forEach(el=>el.setAttribute('aria-pressed',String(el.dataset.device===state.device)));
 }
 $('messageSelect').addEventListener('change',event=>{state.type=event.target.value;state.continued=false;render()});
-document.querySelectorAll('[data-device]').forEach(button=>button.addEventListener('click',()=>{state.device=button.dataset.device;state.continued=false;render()}));
+document.querySelectorAll('button[data-device]').forEach(button=>button.addEventListener('click',()=>{state.device=button.dataset.device;state.continued=false;render()}));
 $('resume').addEventListener('click',()=>{state.continued=true;render()});
 $('restore').addEventListener('click',()=>{state.continued=false;render();$('resume').focus()});
 window.GoIELTSMessages={getState:()=>({...state}),set:(v)=>{Object.assign(state,v);render()},reset:()=>{state={type:'short',device:'desktop',continued:false};render()},messages:()=>({...messages})};
