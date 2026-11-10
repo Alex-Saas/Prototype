@@ -1,246 +1,171 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="light">
-<meta name="theme-color" content="#012169">
-<title>GoIELTS — رسائل استكمال الاختبار | Pause / Resume</title>
+<title>GoIELTS | رسائل استكمال الاختبار — معاينة التصميم</title>
+<meta name="description" content="معاينة تفاعلية لرسائل استكمال GoIELTS حسب نوع الرسالة ووضع الاختبار وحجم الشاشة.">
+<link rel="preconnect" href="https://app.goielts.ai" crossorigin>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap');
-@font-face{font-family:'GoIELTS Plex';src:url('https://app.goielts.ai/_next/static/media/9da48a48bf6500f8-s.p.woff2') format('woff2');font-weight:400;font-style:normal;font-display:swap}
-@font-face{font-family:'GoIELTS Plex';src:url('https://app.goielts.ai/_next/static/media/f022b1629605b85c-s.p.woff2') format('woff2');font-weight:500;font-style:normal;font-display:swap}
-@font-face{font-family:'GoIELTS Plex';src:url('https://app.goielts.ai/_next/static/media/e4efb0298547fad0-s.p.woff2') format('woff2');font-weight:600;font-style:normal;font-display:swap}
-@font-face{font-family:'GoIELTS Plex';src:url('https://app.goielts.ai/_next/static/media/fb66eb17bf011c3b-s.p.woff2') format('woff2');font-weight:700;font-style:normal;font-display:swap}
-:root{--navy:#06266e;--ink:#082862;--blue:#123d95;--red:#c8102e;--bg:#f1f4fa;--surface:#f7f9ff;--line:#d5dff2;--secondary:#667591;--success:#087e46;--font:'GoIELTS Plex','IBM Plex Sans Arabic',Tahoma,Arial,sans-serif}
-*{box-sizing:border-box}
-[hidden]{display:none!important}
-html{background:#f3f6fb;scroll-behavior:smooth}
-body{margin:0;min-height:100vh;background:linear-gradient(155deg,#eef2f9 0%,#f7f9fd 55%,#f0f4fa 100%);color:var(--navy);font-family:var(--font);-webkit-font-smoothing:antialiased;overflow-x:hidden}
-button,select{font:inherit}button{cursor:pointer}a{color:var(--ink)}button:focus-visible,select:focus-visible,a:focus-visible{outline:3px solid #6f99ec;outline-offset:3px}
-.prototype{max-width:1270px;margin:0 auto;padding:22px clamp(12px,3vw,34px) 60px}
-.header{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:17px}
-.header h1{font-size:24px;line-height:1.4;color:#09265f;margin:0;font-weight:700}
-.header p{margin:5px 0 0;font-size:12px;color:#7787a0}
-.version{font-size:12px;color:#687993;border:1px solid #e0e6f1;border-radius:999px;padding:7px 11px;background:#fff;white-space:nowrap}
-.controls{display:flex;align-items:flex-end;justify-content:flex-start;flex-wrap:wrap;gap:15px 22px;padding:16px;background:#fff;border:1px solid #e0e6f0;border-radius:14px;box-shadow:0 5px 24px #1c39790a}
-.control{min-width:0}.control>label,.control-label{display:block;margin-bottom:8px;color:#71819b;font-weight:500;font-size:11px;white-space:nowrap}
-.control select{border:1px solid #d7e1ef;background:#fbfcff;color:#173a80;border-radius:9px;font-size:12px;font-weight:600;min-height:40px;padding:7px 12px;width:100%;max-width:100%;cursor:pointer}
-.control--scenario{flex:1 1 230px;min-width:220px}
-.control--duration{flex:0 1 175px;min-width:155px}
-.control--previous{flex:0 1 170px;min-width:155px}
-.control--remaining{flex:0 1 175px;min-width:155px}
-.segment{display:inline-flex;gap:3px;padding:3px;background:#f1f4fa;border:1px solid #e2e8f3;border-radius:10px}
-.segment button{border:1px solid transparent;border-radius:7px;background:transparent;color:#4b5e83;font-size:12px;font-weight:500;min-height:35px;padding:7px 12px;white-space:nowrap;transition:background .12s}
-.segment button:hover{background:#fff}.segment button[aria-pressed=true]{background:#fff;border-color:#ccdcf8;color:#0d388a;box-shadow:0 1px 4px #0d388a14;font-weight:600}
-.device-group{margin-inline-start:auto}
-.note{margin-top:13px;display:flex;flex-wrap:wrap;gap:8px;align-items:center;color:#6f7f99;font-size:11px}
-.rule-pill{border:1px solid #d9e2f3;color:#23477a;background:#fff;border-radius:999px;font-size:10px;padding:3px 10px;font-weight:600}
-.preview-area{margin-top:28px}
-.stage-head{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:14px;flex-wrap:wrap}
-.stage-head h2{font-size:15px;color:#7d8aa0;font-weight:600;margin:0}
-.stage-head p{font-size:11px;color:#8793a9;margin:0}
-.status-badge{font-size:11px;font-weight:700;color:#245f4a;background:#e9f7ee;border:1px solid #d2ead9;border-radius:999px;padding:6px 12px}
-.status-badge[data-state=modal]{background:#f1f5fc;color:#174589;border-color:#d9e3f3}
-.status-badge[data-state=done]{background:#e9f7ee;color:#245f4a}
-.demo-frame{background:linear-gradient(180deg,rgba(255,255,255,.85),rgba(247,249,255,.55));border:1px solid #e5ebf5;border-radius:16px;padding:clamp(16px,3.2vw,29px);box-shadow:0 8px 32px rgba(18,45,101,.04);min-height:515px;display:flex;align-items:center;justify-content:center}
-.device{width:100%;min-height:445px;margin:auto;border-radius:16px;background:radial-gradient(circle at 50% 2%,#e8eefb 0%,#edf1f8 37%,#e8edf6 100%);border:1px solid #dde5f3;position:relative;display:grid;place-items:center;overflow:hidden;isolation:isolate;transition:max-width .2s ease,min-height .2s}
-.device:before{content:'';position:absolute;inset:0;background:rgba(9,27,66,.17);z-index:0}
-.device[data-device=tablet]{max-width:770px;min-height:495px}
-.device[data-device=mobile]{max-width:390px;min-height:620px;border-radius:27px;border:7px solid #192b51;box-shadow:0 12px 30px #152f6321}
-.device[data-device=mobile]:before{border-radius:19px}
-.device[data-device=desktop]{max-width:none}
-.device__top{position:absolute;top:15px;right:18px;left:18px;display:flex;align-items:center;justify-content:space-between;gap:6px;z-index:1;opacity:.55;pointer-events:none}
-.device__logo{width:82px;height:auto;display:block;opacity:.8}
-.device__indicator{display:flex;align-items:center;gap:7px;font-size:10px;color:#4f648a}
-.device__indicator span{width:6px;height:6px;border-radius:50%;background:#879cc1}
-.dialog{position:relative;z-index:2;width:min(516px,calc(100% - 36px));padding:24px;background:#fff;border-radius:8px;box-shadow:0 18px 48px #071e4752;text-align:center;display:flex;flex-direction:column;align-items:stretch;gap:0;max-height:calc(100% - 54px);overflow-y:auto}
-.dialog .eyebrow{font-size:11px;color:#78849a;font-weight:600;margin-bottom:7px}
-.dialog h3{color:#0c2455;font-size:24px;font-weight:700;line-height:1.55;margin:0 0 12px;overflow-wrap:anywhere}
-.dialog .description{font-size:13px;font-weight:400;color:#56647b;line-height:1.95;margin:0 0 22px;overflow-wrap:break-word}
-.dialog .description.exam{margin-bottom:19px}
-.dialog .progress{margin:0 0 17px;text-align:right}
-.progress-head{display:flex;justify-content:space-between;gap:10px;align-items:center;font-size:12px;color:#61708a;margin-bottom:8px}
-.progress-head strong{color:#0b3078;font-size:13px;font-weight:700}
-.progress-track{height:7px;background:#e4eaf6;border-radius:999px;overflow:hidden}
-.progress-track>span{height:100%;display:block;width:67%;border-radius:999px;background:linear-gradient(to left,#2c277f,#22a75e)}
-.remaining{padding:13px 15px;background:#f6f8fe;border:1px solid #dfe7f5;border-radius:9px;text-align:right;margin-bottom:20px;display:flex;align-items:center;justify-content:space-between;gap:12px}
-.remaining__label{font-size:11px;color:#5e6d88}
-.remaining__time{font-size:18px;font-weight:700;white-space:nowrap;color:#0f4782}
-.remaining[data-warning=true]{background:#fff8f8;border-color:#f3d6dc}
-.remaining[data-warning=true] .remaining__time{color:#ba1833;font-size:14px;white-space:normal;text-align:left;line-height:1.7}
-.resume{height:45px;min-height:45px;border-radius:7px;border:0;color:#fff;background:#012169;font-size:14px;font-weight:600;display:flex;align-items:center;justify-content:center;gap:7px;width:100%;transition:background .2s}
-.resume:hover{background:#113988}
-.resume:active{transform:translateY(1px)}
-.device[data-device=mobile] .dialog{width:calc(100% - 22px);padding:18px 16px;max-height:calc(100% - 50px)}
-.device[data-device=mobile] .dialog h3{font-size:18px;line-height:1.6;margin-bottom:10px}
-.device[data-device=mobile] .dialog .description{font-size:12px;margin-bottom:17px}
-.device[data-device=mobile] .progress{margin-bottom:14px}
-.device[data-device=mobile] .remaining{padding:10px;margin-bottom:17px;flex-wrap:wrap}
-.device[data-device=mobile] .remaining__time{font-size:16px}
-.device[data-device=mobile] .remaining[data-warning=true] .remaining__time{font-size:12px}
-.device[data-device=mobile] .resume{height:43px;min-height:43px;font-size:14px}
-.device[data-device=mobile] .device__top{top:20px}
-.device[data-device=mobile] .device__logo{width:68px}
-.no-dialog{position:relative;z-index:2;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:7px;min-height:240px;width:min(360px,90%);border:1px dashed #abc0e0;border-radius:12px;background:#f9fbffed;padding:28px 15px;text-align:center;box-shadow:0 10px 28px #122f5517}
-.no-dialog svg{width:37px;height:37px;color:#278050}
-.no-dialog strong{font-weight:700;font-size:17px;color:#21487f}
-.no-dialog p{color:#6b7891;font-size:12px;line-height:1.9;margin:0}
-.review-note{display:block;color:#8895aa;font-weight:500;font-size:10px;margin-top:5px}
-.preview-footer{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;background:#fff;border:1px solid #e0e6f0;border-radius:0 0 12px 12px;margin-top:0;padding:13px 18px;font-size:12px;color:#62708a}
-.preview-footer strong{color:#244b87;font-weight:600}
-.preview-footer .footer-action{border:1px solid #d4e0f2;background:#fff;color:#1b4789;border-radius:8px;padding:7px 11px;font-weight:600;font-size:11px}
-.preview-footer .footer-action:hover{background:#f2f6fe}
-.sources{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-top:18px;font-size:11px;color:#8491a8}
-.sources a{color:#426294;text-underline-offset:3px}
-.legend{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
-.legend span{font-size:11px;background:#fff;border:1px solid #e0e7f2;color:#6b7e9d;border-radius:999px;padding:6px 10px}
-@media(max-width:950px){.device-group{margin-inline-start:0}.demo-frame{min-height:490px}.header h1{font-size:21px}}
-@media(max-width:620px){.prototype{padding:14px 12px 32px}.header h1{font-size:19px}.header p{font-size:11px}.version{font-size:10px}.controls{padding:12px;gap:12px 8px}.control--scenario{flex:1 1 100%}.control--duration,.control--previous,.control--remaining{flex:1 1 calc(50% - 8px);min-width:0}.control--duration select,.control--previous select,.control--remaining select{font-size:11px;padding:6px}.device-group{flex:1 1 100%}.segment{max-width:100%;flex-wrap:wrap}.segment button{padding:7px 10px}.preview-area{margin-top:20px}.demo-frame{padding:12px 8px;min-height:500px}.device[data-device=mobile]{min-height:565px;max-width:382px}.device[data-device=desktop]{min-height:420px}.device[data-device=tablet]{min-height:460px}.device[data-device=desktop] .dialog,.device[data-device=tablet] .dialog{width:calc(100% - 24px);padding:17px 15px}.dialog h3{font-size:20px}.dialog .description{font-size:12px}.status-badge{font-size:10px}.preview-footer{padding:11px 12px}.sources{line-height:1.8}}
-@media(max-width:390px){.control--duration,.control--previous,.control--remaining{flex-basis:100%}.device[data-device=mobile]{min-height:565px}.device[data-device=mobile] .dialog{width:calc(100% - 18px);padding:15px 13px}.device[data-device=mobile] .dialog h3{font-size:18px}.device[data-device=mobile] .dialog .description{font-size:12px}.device[data-device=mobile] .remaining{flex-direction:column;align-items:stretch}.device[data-device=mobile] .remaining__time{text-align:right}.device[data-device=mobile] .remaining[data-warning=true] .remaining__time{text-align:right}}
-@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+@font-face{font-family:GoPlex;src:url('https://app.goielts.ai/_next/static/media/9da48a48bf6500f8-s.p.woff2') format('woff2');font-weight:400;font-display:swap}
+@font-face{font-family:GoPlex;src:url('https://app.goielts.ai/_next/static/media/f022b1629605b85c-s.p.woff2') format('woff2');font-weight:500;font-display:swap}
+@font-face{font-family:GoPlex;src:url('https://app.goielts.ai/_next/static/media/e4efb0298547fad0-s.p.woff2') format('woff2');font-weight:600;font-display:swap}
+@font-face{font-family:GoPlex;src:url('https://app.goielts.ai/_next/static/media/fb66eb17bf011c3b-s.p.woff2') format('woff2');font-weight:700;font-display:swap}
+:root{--navy:#012169;--navy2:#092c72;--ink:#122a5b;--red:#c8102e;--blue:#3150a5;--muted:#687992;--line:#dce5f3;--canvas:#f2f5fa;--green:#16854d;--font:GoPlex,'IBM Plex Sans Arabic',Tahoma,Arial,sans-serif}
+*{box-sizing:border-box} [hidden]{display:none!important} html{background:#f3f6fb;scroll-behavior:smooth}
+body{margin:0;min-height:100vh;font-family:var(--font);color:var(--ink);background:linear-gradient(160deg,#edf2fb 0%,#f6f8fd 45%,#f3f6fc 100%);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+button,select{font-family:inherit} button{cursor:pointer}button:focus-visible,select:focus-visible,a:focus-visible{outline:3px solid #77a4f5;outline-offset:3px}
+.shell{max-width:1250px;margin:0 auto;padding:30px 28px 54px}
+.mast{display:flex;align-items:flex-start;justify-content:space-between;gap:18px;flex-wrap:wrap;margin-bottom:22px}
+.mast-title{display:flex;flex-direction:column;gap:3px}.mast h1{font-size:25px;line-height:1.55;color:#082660;margin:0;font-weight:700}.mast p{color:#72829b;font-size:13px;line-height:1.8;margin:0}
+.mark{border:1px solid #dce5f2;background:#fff;border-radius:999px;color:#637796;font-size:11px;font-weight:600;padding:9px 13px;white-space:nowrap;margin-top:3px}
+.controller{display:grid;grid-template-columns:minmax(250px,1.2fr) auto auto;gap:22px;align-items:end;background:#fff;border:1px solid #dfe7f4;padding:17px 19px;border-radius:15px;box-shadow:0 8px 25px rgba(7,35,91,.045)}
+.control label,.control-name{font-size:11px;font-weight:600;color:#71809a;display:block;margin:0 0 9px}
+.select-wrap{position:relative}.select-wrap:after{content:'';position:absolute;left:14px;top:16px;border-left:1.8px solid #557098;border-bottom:1.8px solid #557098;width:7px;height:7px;transform:rotate(-45deg);pointer-events:none}
+.select-wrap select{appearance:none;min-height:43px;width:100%;background:#f8faff;color:#173e86;padding:10px 13px 10px 35px;border:1px solid #d7e2f1;border-radius:9px;font-size:13px;font-weight:600;cursor:pointer}
+.segment{display:inline-flex;gap:3px;border:1px solid #e0e7f2;background:#f3f6fb;border-radius:10px;padding:4px}
+.segment button{border:1px solid transparent;background:transparent;color:#61718d;padding:8px 13px;min-height:34px;font-size:12px;font-weight:600;border-radius:7px;white-space:nowrap}
+.segment button[aria-pressed=true]{background:#fff;color:#113d88;border-color:#d5e1f3;box-shadow:0 1px 4px rgba(22,49,104,.09)}
+.segment button:hover:not([aria-pressed=true]){background:#fafcff}
+.preview-head{margin:28px 2px 13px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.preview-head h2{font-size:15px;font-weight:600;color:#697c98;margin:0}.preview-head p{font-size:11px;color:#8694a8;margin:0}
+.preview-note{display:flex;align-items:center;gap:7px;font-size:11px;font-weight:600;color:#506d9b;background:#f8faff;border:1px solid #dce6f5;border-radius:100px;padding:6px 12px;white-space:nowrap}
+.preview-note i{display:block;width:7px;height:7px;border-radius:50%;background:#2e9c63}
+.preview-board{position:relative;background:#fafcff;border:1px solid #e2e9f5;border-radius:17px;padding:21px;min-height:604px;box-shadow:0 12px 40px rgba(7,35,91,.035);display:flex;justify-content:center;align-items:center}
+.scene{width:100%;height:550px;max-width:100%;border-radius:15px;background:linear-gradient(140deg,#e7ecf7 0%,#dde5f5 65%,#e8eefb 100%);border:1px solid #dbe3f2;position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden;transition:width .18s,height .18s,border-radius .18s}
+.scene:before{content:'';inset:0;position:absolute;background:radial-gradient(circle at 78% 24%,rgba(255,255,255,.84),transparent 28%),radial-gradient(circle at 18% 78%,rgba(184,203,244,.45),transparent 32%)}
+.scene:after{content:'';inset:0;position:absolute;background:rgba(11,32,78,.08)}
+.scene[data-device=tablet]{width:760px;height:570px}
+.scene[data-device=mobile]{width:390px;height:590px;border-radius:28px;border:7px solid #1d2e56;box-shadow:0 18px 40px rgba(17,37,77,.14)}
+.scene-top{position:absolute;inset:20px 25px auto 25px;display:flex;align-items:center;justify-content:space-between;z-index:1;opacity:.58;pointer-events:none}
+.scene-top img{width:90px;height:auto}.scene-top span{display:inline-flex;align-items:center;gap:7px;color:#536b91;font-size:10px;font-weight:600}.scene-top span:before{content:'';width:7px;height:7px;background:#809ac8;border-radius:100px}
+.modal{position:relative;z-index:2;width:516px;max-width:calc(100% - 34px);max-height:calc(100% - 76px);overflow-y:auto;background:#fff;border:1px solid #ecf0f7;border-radius:15px;padding:29px 31px 27px;box-shadow:0 26px 65px rgba(20,40,88,.18),0 4px 13px rgba(19,36,73,.045);text-align:right;animation:appear .22s ease}
+@keyframes appear{from{opacity:0;transform:translateY(8px) scale(.985)}to{opacity:1;transform:translateY(0) scale(1)}}
+.modal-hero{display:flex;align-items:center;gap:17px;margin-bottom:20px}
+.icon-tile{width:62px;height:62px;flex:0 0 62px;border-radius:17px;display:grid;place-items:center;background:linear-gradient(145deg,#eef4ff,#e9effd);border:1px solid #dae7fa;color:#16458a;box-shadow:inset 0 1px 0 #fff}
+.icon-tile svg{height:30px;width:30px;stroke-width:1.8;fill:none;stroke:currentColor;stroke-linecap:round;stroke-linejoin:round}
+.modal[data-case=long] .icon-tile{background:#edf8f3;color:#168153;border-color:#d8eee0}
+.modal[data-case=urgent] .icon-tile{background:#fff2ee;color:#b5373d;border-color:#f6dcd8}
+.modal-meta{margin:0 0 5px;font-size:11px;color:#6a7f9e;font-weight:600;line-height:1.3}
+.modal-title{font-size:22px;line-height:1.5;margin:0;color:#092a69;font-weight:700;letter-spacing:-.25px;overflow-wrap:break-word}
+.modal[data-case=urgent] .modal-title{color:#98253a}
+.modal-description{font-size:14px;line-height:1.95;color:#5c6b86;margin:0 0 23px;max-width:435px}
+.soft-note{display:flex;align-items:flex-start;gap:8px;color:#477457;font-size:12px;font-weight:500;margin:0 0 19px;background:#f5faf7;border-radius:9px;padding:10px 12px}
+.soft-note svg{height:17px;width:17px;flex:0 0 17px;margin-top:3px;stroke:currentColor;stroke-width:2;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.stats{border:1px solid #e1e8f2;background:#fbfcff;border-radius:12px;padding:16px 17px;margin:0 0 13px}
+.stats-head{display:flex;align-items:center;justify-content:space-between;gap:12px;color:#526580;font-size:12px;font-weight:500;margin-bottom:9px}
+.stats-head strong{font-size:12px;font-weight:700;color:#1b4383;white-space:nowrap}
+.bar{height:7px;border-radius:20px;background:#e6eafa;overflow:hidden}
+.bar span{height:100%;width:66.667%;border-radius:20px;display:block;background:linear-gradient(270deg,#0f3b98,#31b571)}
+.deadline{border:1px solid #dce8f5;background:linear-gradient(110deg,#f3f8ff,#f8faff);border-radius:12px;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:13px 17px;margin:0 0 22px}
+.deadline-label{display:flex;flex-direction:column;gap:4px}.deadline-label span{font-size:11px;color:#6c7b94}.deadline-label strong{font-size:13px;color:#20457f;font-weight:700}
+.deadline-value{display:flex;align-items:baseline;gap:5px;color:#113e88;white-space:nowrap}.deadline-value b{font-family:var(--font);font-size:27px;font-weight:700;line-height:1.25;font-variant-numeric:tabular-nums}.deadline-value small{font-size:12px;font-weight:600}
+.modal[data-case=urgent] .deadline{background:#fff6f4;border-color:#efd5d3}
+.modal[data-case=urgent] .deadline-value{color:#ae293b;white-space:normal;font-weight:700;max-width:215px;text-align:left;line-height:1.55;font-size:12px}
+.cta{width:100%;min-height:50px;border-radius:9px;border:0;background:#08276f;color:#fff;font-size:15px;font-weight:700;display:flex;align-items:center;justify-content:center;gap:9px;transition:background .16s,transform .16s;box-shadow:0 6px 15px rgba(4,31,99,.12)}
+.cta svg{height:18px;width:18px;stroke:currentColor;stroke-width:2;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.cta:hover{background:#17438a}.cta:active{transform:scale(.995)}
+.modal-foot{font-size:11px;line-height:1.8;color:#8b97aa;text-align:center;margin:10px 0 0}
+.result{position:relative;z-index:2;background:#fff;border:1px solid #dde8f5;border-radius:12px;padding:28px 30px;text-align:center;max-width:360px;box-shadow:0 17px 36px rgba(15,40,89,.14)}
+.result-icon{display:inline-flex;align-items:center;justify-content:center;background:#e9f8f0;color:#168c50;border-radius:50%;width:54px;height:54px;font-size:28px;margin-bottom:12px}
+.result h3{color:#0e346d;font-size:18px;margin:0 0 5px}.result p{color:#7a88a2;font-size:12px;line-height:1.8;margin:0}
+.under-preview{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:13px;padding:14px 19px;background:#fff;border:1px solid #e2e8f3;border-radius:0 0 13px 13px;margin-top:-1px;color:#6d7b93;font-size:12px}
+.under-preview b{font-weight:600;color:#2c508b}.reset{border-radius:8px;border:1px solid #d6e1f0;padding:7px 12px;background:#fff;color:#234b8a;font-size:11px;font-weight:600}
+.under-preview small{font-size:11px;color:#8190a7}
+.rules{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-top:18px;color:#7b8ba4;font-size:11px;line-height:2}
+.rules a{color:#466a9b;text-underline-offset:3px}
+.details{margin-top:14px;border-radius:10px;background:#fff;border:1px solid #e1e9f3;padding:11px 15px;color:#6b7f9b;font-size:11px}
+.details summary{cursor:pointer;color:#476797;font-weight:600;font-size:12px;outline-offset:3px}
+.details p{margin:5px 0 0;line-height:1.9}
+@media (max-width:970px){.controller{grid-template-columns:1fr 1fr;gap:15px}.control--case{grid-column:1/-1}.preview-board{min-height:570px}}
+@media (max-width:630px){.shell{padding:18px 13px 34px}.mast h1{font-size:21px}.mast p{font-size:11px}.mark{font-size:10px}.controller{grid-template-columns:1fr 1fr;padding:13px;gap:13px 10px}.control--case{grid-column:1/-1}.control--device{grid-column:1/-1}.segment button{padding:8px 12px}.preview-head{margin-top:20px}.preview-board{padding:13px 8px;min-height:525px}.scene{height:495px}.scene[data-device=mobile]{height:565px;width:min(382px,100%)}.scene[data-device=tablet]{height:530px}.modal{width:calc(100% - 25px);padding:20px 17px;max-height:calc(100% - 60px)}.modal-hero{gap:12px;margin-bottom:12px}.icon-tile{width:49px;height:49px;flex-basis:49px;border-radius:13px}.icon-tile svg{width:25px;height:25px}.modal-title{font-size:18px;line-height:1.6}.modal-description{font-size:12px;line-height:1.9;margin-bottom:16px}.soft-note{font-size:11px;padding:9px 10px;margin-bottom:13px}.stats{padding:12px;margin-bottom:10px}.deadline{padding:11px 12px;margin-bottom:16px}.deadline-value b{font-size:24px}.modal-foot{font-size:10px}.scene-top img{width:74px}.scene-top{inset:13px 15px auto 15px}.under-preview{padding:12px}.rules{align-items:start}}
+@media (max-width:390px){.controller{grid-template-columns:1fr}.control--mode,.control--device{grid-column:1/-1}.segment{width:100%;display:flex}.segment button{flex:1}.preview-board{padding:10px 5px}.scene[data-device=mobile]{height:545px}.modal{padding:16px 13px;max-height:calc(100% - 47px)}.modal-title{font-size:17px}.modal-description{font-size:11.5px;margin-bottom:14px}.stats{padding:10px}.deadline{margin-bottom:12px}.scene-top{inset:12px 11px auto 11px}.scene-top img{width:65px}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important}}
 </style>
 </head>
 <body>
-<main class="prototype">
-<header class="header">
- <div><h1>رسائل استكمال الاختبار</h1><p>معاينة التصميم — وضع التدريب والامتحان · Desktop / Tablet / Mobile</p></div>
- <span class="version">GoIELTS · UI/UX Review · PRD v0.3</span>
-</header>
-<section class="controls" aria-label="خيارات معاينة الرسائل">
- <div class="control control--scenario"><label for="scenario">حالة جاهزة</label><select id="scenario" aria-label="حالة جاهزة">
-  <option value="p119">تدريب: ١:٥٩ — استكمال تلقائي</option>
-  <option value="p120">تدريب: ٢:٠٠ — نافذة مختصرة</option>
-  <option value="p459">تدريب: ٤:٥٩:٥٩ — نافذة مختصرة</option>
-  <option value="p5h">تدريب: ٥ ساعات — نافذة مفصّلة</option>
-  <option value="purgent">تدريب: ٥ ساعات — باقي أقل من ساعة</option>
-  <option value="prepeat">تدريب: انقطاع متكرر دقيقتان</option>
-  <option value="e59">امتحان: ٠:٥٩ — استكمال تلقائي</option>
-  <option value="e60">امتحان: ١:٠٠ — أول نافذة</option>
-  <option value="e459">امتحان: ٤:٥٩:٥٩ — أول نافذة</option>
-  <option value="e5h">امتحان: ٥ ساعات — أول نافذة مفصّلة</option>
-  <option value="erepeat">امتحان: انقطاع لاحق — تلقائي</option>
-  <option value="erepeatlong">امتحان: انقطاع لاحق ٥ ساعات — تلقائي</option>
-  <option value="custom">تخصيص الحالة يدويًا</option>
- </select></div>
- <div class="control"><span class="control-label">وضع الاختبار</span><div class="segment" role="group" aria-label="وضع الاختبار"><button type="button" data-mode="practice" aria-pressed="true">تدريب</button><button type="button" data-mode="exam" aria-pressed="false">امتحان</button></div></div>
- <div class="control control--duration"><label for="duration">مدة الانقطاع</label><select id="duration">
-  <option value="59">٥٩ ثانية</option><option value="60">دقيقة</option><option value="119">دقيقة و٥٩ ثانية</option><option value="120">دقيقتان</option><option value="240">٤ دقائق</option><option value="17999">٤ ساعات و٥٩ دقيقة</option><option value="18000">٥ ساعات</option><option value="21600">٦ ساعات</option>
- </select></div>
- <div class="control control--previous"><label for="previous">سجل النافذة</label><select id="previous">
-  <option value="first">لم تظهر سابقًا</option><option value="shown">ظهرت سابقًا</option>
- </select></div>
- <div class="control control--remaining"><label for="remaining">المهلة المتبقية</label><select id="remaining">
-  <option value="71.5">٧١ ساعة</option><option value="60.6">٦٠ ساعة</option><option value="21.7">٢١ ساعة</option><option value="7.4">٧ ساعات</option><option value="1">ساعة واحدة</option><option value="0.7">أقل من ساعة</option>
- </select></div>
- <div class="control device-group"><span class="control-label">حجم الشاشة</span><div class="segment" role="group" aria-label="حجم الشاشة"><button type="button" data-device="desktop" aria-pressed="true">كمبيوتر</button><button type="button" data-device="tablet" aria-pressed="false">تابلت</button><button type="button" data-device="mobile" aria-pressed="false">جوال</button></div></div>
-</section>
-<div class="note"><span class="rule-pill" id="ruleLabel">القاعدة: Practice ≥ ١٢٠ ثانية</span><span>يمكن تعديل الخيارات يدويًا أو اختيار سيناريو جاهز. النوافذ هي وحدها نطاق هذه المعاينة.</span></div>
-<section class="preview-area" aria-label="معاينة رسائل الاستكمال">
- <div class="stage-head">
-  <div><h2 id="stageTitle">Desktop — نافذة استكمال الاختبار</h2><p id="stageSubtitle">عرض الرسالة دون محاكاة صفحة الاختبار بالكامل</p></div>
-  <span class="status-badge" id="statusBadge" data-state="modal">نافذة مختصرة</span>
- </div>
- <div class="demo-frame">
-  <div class="device" id="device" data-device="desktop">
-   <div class="device__top" aria-hidden="true"><img class="device__logo" src="https://app.goielts.ai/logo-lg.svg" width="227" height="64" alt=""><div class="device__indicator"><span></span>معاينة الرسائل</div></div>
-   <div class="dialog" id="dialog" role="dialog" aria-labelledby="dialogTitle" aria-describedby="dialogDescription">
-    <span class="eyebrow" id="eyebrow">العودة إلى التدريب</span>
-    <h3 id="dialogTitle">جاهز تكمل من وين وقفت؟</h3>
-    <p class="description" id="dialogDescription">اختبارك محفوظ. اضغط «متابعة الاختبار» وقت ما تكون جاهز.</p>
-    <div class="progress" id="progress" hidden>
-      <div class="progress-head"><span>أنجزت ١٦ من ٢٤ سؤالًا</span><strong>٦٧٪</strong></div><div class="progress-track"><span></span></div>
-    </div>
-    <div class="remaining" id="remainingBox" hidden><span class="remaining__label">باقي على مهلة استكمال الاختبار</span><strong class="remaining__time" id="remainingText">٦٠ ساعة</strong></div>
-    <button type="button" id="resume" class="resume">متابعة الاختبار</button>
-   </div>
-   <div class="no-dialog" id="noDialog" hidden role="status" aria-live="polite">
-     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="m7 12 3 3 7-7"/></svg>
-     <strong id="noDialogTitle">لا تظهر نافذة استكمال</strong>
-     <p id="noDialogDesc">يستكمل الطالب تلقائيًا دون مقاطعة.</p>
-     <span class="review-note">توضيح للمراجع فقط — ليس رسالة تظهر للطالب</span>
+<div class="shell">
+ <header class="mast">
+  <div class="mast-title"><h1>رسائل استكمال الاختبار</h1><p>معاينة التصميم — 3 رسائل مختلفة فعلًا، بدون حالات مكررة</p></div>
+  <span class="mark">GoIELTS · UI/UX Review · PRD v0.3</span>
+ </header>
+ <section class="controller" aria-label="خيارات المعاينة">
+  <div class="control control--case"><label for="messageSelect">نوع الرسالة</label><div class="select-wrap"><select id="messageSelect">
+   <option value="short">استكمال مختصر — انقطاع أقل من 5 ساعات</option>
+   <option value="long">ملخص التقدم — انقطاع 5 ساعات أو أكثر</option>
+   <option value="urgent">مهلة حرجة — باقي أقل من ساعة</option>
+  </select></div></div>
+  <div class="control control--mode"><span class="control-name">وضع الاختبار</span><div class="segment" role="group" aria-label="وضع الاختبار"><button type="button" data-mode="practice" aria-pressed="true">تدريب</button><button type="button" data-mode="exam" aria-pressed="false">امتحان</button></div></div>
+  <div class="control control--device"><span class="control-name">حجم الشاشة</span><div class="segment" role="group" aria-label="حجم الشاشة"><button type="button" data-device="desktop" aria-pressed="true">كمبيوتر</button><button type="button" data-device="tablet" aria-pressed="false">تابلت</button><button type="button" data-device="mobile" aria-pressed="false">جوال</button></div></div>
+ </section>
+ <section class="preview" aria-label="معاينة نافذة الاستكمال">
+  <div class="preview-head"><div><h2 id="previewTitle">Desktop — رسالة الاستكمال المختصرة</h2><p>المعاينة للرسالة فقط، وليست صفحة الاختبار كاملة</p></div><span class="preview-note"><i></i> محاكاة تفاعلية</span></div>
+  <div class="preview-board">
+   <div class="scene" data-device="desktop" id="scene">
+    <div class="scene-top" aria-hidden="true"><img src="https://app.goielts.ai/logo-lg.svg" width="227" height="64" alt=""><span>معاينة الرسائل</span></div>
+    <article class="modal" data-case="short" id="modal" role="dialog" aria-labelledby="title" aria-describedby="description">
+     <div class="modal-hero"><span class="icon-tile" id="iconTile" aria-hidden="true"></span><div><p class="modal-meta" id="meta">تكملة التدريب</p><h3 class="modal-title" id="title">يلا نكمل من وين وقفنا؟</h3></div></div>
+     <p class="modal-description" id="description">كل إجاباتك محفوظة، والعدّاد موقف معك. يلا نرجع نكمّل المشوار!</p>
+     <div class="soft-note" id="softNote"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="m8 12 2.5 2.5 5-5"/></svg><span>تقدر ترجع لنفس السؤال اللي وقفت عنده.</span></div>
+     <div class="stats" id="stats" hidden><div class="stats-head"><span>أنجزت <bdi dir="ltr">16</bdi> من <bdi dir="ltr">24</bdi> سؤال</span><strong dir="ltr">67%</strong></div><div class="bar"><span></span></div></div>
+     <div class="deadline" id="deadline" hidden><div class="deadline-label"><span>المهلة المتبقية للاستكمال</span><strong id="deadlineHelper">لسّه عندك وقت تكمل</strong></div><div class="deadline-value" id="deadlineValue"><bdi dir="ltr"><b>21</b></bdi><small>ساعة</small></div></div>
+     <button id="resume" class="cta" type="button">متابعة الاختبار <svg viewBox="0 0 24 24"><path d="M18 12H6m6 6-6-6 6-6"/></svg></button>
+     <p class="modal-foot" id="footNote">نفس تقدمك، ونفس الوقت المتبقي.</p>
+    </article>
+    <div class="result" id="result" hidden role="status"><div class="result-icon">✓</div><h3>تمام، رجعنا للاختبار</h3><p>هذي محاكاة للمراجعة فقط — ما بدأ اختبار حقيقي.</p></div>
    </div>
   </div>
- </div>
- <div class="preview-footer"><div><strong id="resultTitle">نافذة استكمال</strong> <span id="resultDetail">— العدّاد متوقف حتى يختار الطالب المتابعة</span></div><button type="button" id="restore" class="footer-action" hidden>إعادة عرض الرسالة</button></div>
- <div class="legend"><span>النافذة المختصرة: بدون تقدم أو مهلة</span><span>٥ ساعات فأكثر: ملخص التقدم والمهلة بالساعات فقط</span><span>وضع الامتحان: أول نافذة مؤهلة فقط</span></div>
-</section>
-<footer class="sources"><span>النصوص المعروضة مقترحة للمراجعة؛ قواعد الظهور مستمدة من PRD v0.3 وAcceptance Criteria. لا يُنفَّذ اختبار أو حفظ بيانات حقيقي.</span><span><a href="https://docs.google.com/document/d/1T3v3pN4G97jKiH8RirzkPUlJux-uX1e3ZFVvsBo_qw4/edit" target="_blank" rel="noopener">المتطلبات</a> · <a href="https://app.clickup.com/t/86c8cnzkp" target="_blank" rel="noopener">المهمة الأساسية</a></span></footer>
-</main>
+  <div class="under-preview"><div><b id="explanation">نافذة مختصرة</b><span id="explanationInfo"> — نعرض المطلوب فقط، بدون تفاصيل ما يحتاجها الطالب.</span></div><button class="reset" id="reset" type="button" hidden>إعادة عرض الرسالة</button></div>
+ </section>
+ <details class="details"><summary>متى تظهر الرسالة؟</summary><p>في وضع التدريب: العودة قبل <bdi dir="ltr">2</bdi> دقيقة تلقائية، وبعد <bdi dir="ltr">2</bdi> دقيقة تظهر النافذة عند كل انقطاع مستقل. وفي وضع الامتحان: العودة قبل <bdi dir="ltr">1</bdi> دقيقة تلقائية، وتظهر النافذة مرة واحدة فقط عند أول انقطاع يبلغ <bdi dir="ltr">1</bdi> دقيقة أو أكثر. إذا بلغ الانقطاع <bdi dir="ltr">5</bdi> ساعات تظهر تفاصيل التقدم والمهلة، وإذا بقي أقل من ساعة تظهر الرسالة العاجلة.</p></details>
+ <footer class="rules"><span>الكتابة مقترحة للمراجعة. قواعد الظهور من المستند المعتمد، والأرقام في الواجهة إنجليزية دائمًا.</span><span><a href="https://docs.google.com/document/d/1T3v3pN4G97jKiH8RirzkPUlJux-uX1e3ZFVvsBo_qw4/edit" target="_blank" rel="noopener">المتطلبات</a> · <a href="https://app.clickup.com/t/86c8cnzkp" target="_blank" rel="noopener">المهمة الأصلية</a></span></footer>
+</div>
 <script>
 (function(){
 'use strict';
-var scenarios={
- p119:{mode:'practice',duration:119,previous:'first',remaining:60.6},
- p120:{mode:'practice',duration:120,previous:'first',remaining:60.6},
- p459:{mode:'practice',duration:17999,previous:'first',remaining:60.6},
- p5h:{mode:'practice',duration:18000,previous:'first',remaining:60.6},
- purgent:{mode:'practice',duration:18000,previous:'first',remaining:0.7},
- prepeat:{mode:'practice',duration:120,previous:'shown',remaining:21.7},
- e59:{mode:'exam',duration:59,previous:'first',remaining:60.6},
- e60:{mode:'exam',duration:60,previous:'first',remaining:60.6},
- e459:{mode:'exam',duration:17999,previous:'first',remaining:60.6},
- e5h:{mode:'exam',duration:18000,previous:'first',remaining:21.7},
- erepeat:{mode:'exam',duration:120,previous:'shown',remaining:60.6},
- erepeatlong:{mode:'exam',duration:18000,previous:'shown',remaining:0.7}
+const icons={
+ short:'<svg viewBox="0 0 24 24"><path d="M3 11a9 9 0 1 1 2.8 6.5"/><path d="M3 4v7h7"/><path d="m9.5 12 2.5 2.5 4-5"/></svg>',
+ long:'<svg viewBox="0 0 24 24"><path d="M4 19h16"/><path d="M6 15V9M11 15V5M16 15v-3M21 15v-6"/><path d="m4 4 5 3 4-2 6 3"/></svg>',
+ urgent:'<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/><path d="M18 5.5l1.5-2"/></svg>'
 };
-var state={mode:'practice',duration:120,previous:'first',remaining:60.6,device:'desktop',dismissed:false};
-var $=function(id){return document.getElementById(id)};
-var all=function(s){return Array.from(document.querySelectorAll(s))};
-var format=function(n){return Math.floor(n).toLocaleString('ar-EG')};
-function decision(){
- var eligible=state.mode==='practice'?state.duration>=120:state.duration>=60&&state.previous==='first';
- var long=state.duration>=18000;
- return {eligible:eligible,long:long,urgent:state.remaining<1,mode:state.mode,manual:state.dismissed,kind:!eligible?'auto':long?'detail':'short'};
-}
-function buttonGroup(){
- all('[data-mode]').forEach(function(b){b.setAttribute('aria-pressed',String(b.dataset.mode===state.mode))});
- all('[data-device]').forEach(function(b){b.setAttribute('aria-pressed',String(b.dataset.device===state.device))});
-}
+const $=id=>document.getElementById(id);
+const state={type:'short',mode:'practice',device:'desktop',continued:false};
+const texts={
+ practice:{short:{meta:'تكملة التدريب',title:'يلا نكمل من وين وقفنا؟',description:'كل إجاباتك محفوظة، والعدّاد موقف معك. يلا نرجع نكمّل المشوار!',foot:'نفس تقدمك، ونفس الوقت المتبقي.'},long:{meta:'تكملة التدريب',title:'رجعت بالسلامة! نكمل؟',description:'اختبارك محفوظ، ولا سؤال راح عليك. باقي لك وقت تكمل اللي بدأته، خلّنا نواصل!',foot:'المهلة تظهر بالساعات الكاملة، بدون عدّاد حي.'},urgent:{meta:'مهلة الاستكمال',title:'الوقت يداهمنا… يلا نكمل!',description:'إجاباتك محفوظة، بس مهلة الاستكمال قربت تخلص. الأفضل ترجع الحين!',foot:'الوقت المتبقي أقل من ساعة.'}},
+ exam:{short:{meta:'العودة إلى الامتحان',title:'جاهز ترجع للامتحان؟',description:'إجاباتك محفوظة والوقت متوقف. خلّ تركيزك هنا وقلّل التنقل بين التطبيقات عشان تكمّل على رواق.',foot:'هذي النافذة تظهر مرة واحدة في المحاولة.'},long:{meta:'العودة إلى الامتحان',title:'امتحانك ينتظرك، نكمل؟',description:'تقدمك محفوظ، وعندك فرصة تكمل من نفس المكان. خلّ تركيزك هنا وخلصها بهدوء.',foot:'النافذة ما راح تتكرر في المحاولة.'},urgent:{meta:'مهلة استكمال الامتحان',title:'باقي شوي على المهلة!',description:'امتحانك محفوظ، بس مهلة الاستكمال قربت تنتهي. نرجع نكمل قبل يفوت الوقت.',foot:'النافذة ما راح تتكرر في المحاولة.'}}
+};
 function render(){
- var d=decision(),modal=d.eligible&&!state.dismissed;
- buttonGroup();
- $('duration').value=String(state.duration);
- $('previous').value=state.previous;
- $('remaining').value=String(state.remaining);
- $('device').dataset.device=state.device;
- $('dialog').hidden=!modal;
- $('noDialog').hidden=modal;
- $('restore').hidden=!state.dismissed;
- $('statusBadge').dataset.state=modal?'modal':'done';
- $('statusBadge').textContent=modal?(d.long?'نافذة مفصّلة':'نافذة مختصرة'):(state.dismissed?'تمت المتابعة':'استكمال تلقائي');
- $('stageTitle').textContent=(state.device==='mobile'?'Mobile':state.device==='tablet'?'Tablet':'Desktop')+' — '+(modal?'نافذة الاستكمال':'بدون نافذة');
- $('eyebrow').textContent=state.mode==='exam'?'العودة إلى الامتحان':'العودة إلى التدريب';
- $('dialogTitle').textContent=state.mode==='exam'?'نكمل امتحانك من مكانك؟':'جاهز تكمل من وين وقفت؟';
- $('dialogDescription').textContent=state.mode==='exam'?'اختبارك محفوظ. حاول تقلّل التنقّل بين التطبيقات حتى تكمّل بدون انقطاع.':'اختبارك محفوظ. اضغط «متابعة الاختبار» وقت ما تكون جاهز.';
- $('dialogDescription').classList.toggle('exam',state.mode==='exam');
- $('progress').hidden=!d.long;
- $('remainingBox').hidden=!d.long;
- $('remainingBox').dataset.warning=String(d.urgent);
- $('remainingText').textContent=d.urgent?'باقي أقل من ساعة لاستكمال اختبارك':format(state.remaining)+' ساعة';
- $('ruleLabel').textContent=state.mode==='exam'?'القاعدة: Exam ≥ ٦٠ ثانية · مرة واحدة':'القاعدة: Practice ≥ ١٢٠ ثانية · لكل انقطاع';
- var exact=state.duration>=18000?'٥ ساعات أو أكثر':state.duration>119?'دقيقتان أو أكثر':'انقطاع قصير';
- if(state.mode==='exam'&&state.previous==='shown')exact='نافذة الامتحان ظهرت سابقًا';
- $('stageSubtitle').textContent=modal?'انقطاع '+exact+' — '+(d.long?'ملخص التقدم والمهلة':'محتوى مختصر وزر متابعة فقط'):'لا تُعرض رسالة جديدة للطالب في هذه الحالة';
- $('resultTitle').textContent=modal?'النافذة ظاهرة':state.dismissed?'استكمل الطالب اختباره':'العودة تلقائية';
- $('resultDetail').textContent=modal?' — عدّاد الاختبار متوقف حتى الضغط على «متابعة الاختبار»':' — لا نافذة جديدة ولا خصم لوقت الانقطاع';
- $('noDialogTitle').textContent=state.dismissed?'تمت متابعة الاختبار':'لا تظهر نافذة استكمال';
- $('noDialogDesc').textContent=state.dismissed?'ضغط الطالب على «متابعة الاختبار»، فعادت المحاولة للعمل.':'يستكمل الطالب الاختبار تلقائيًا دون مقاطعة.';
+ const type=state.type,mode=state.mode,copy=texts[mode][type];
+ $('scene').dataset.device=state.device;
+ $('modal').dataset.case=type;
+ $('modal').hidden=state.continued;
+ $('result').hidden=!state.continued;
+ $('reset').hidden=!state.continued;
+ $('messageSelect').value=type;
+ $('iconTile').innerHTML=icons[type];
+ $('meta').textContent=copy.meta;$('title').textContent=copy.title;$('description').textContent=copy.description;$('footNote').textContent=copy.foot;
+ $('stats').hidden=type==='short';$('deadline').hidden=type==='short';$('softNote').hidden=type!=='short';
+ $('deadlineHelper').textContent=type==='urgent'?'مهلتك قربت تخلص':'لسّه عندك وقت تكمل';
+ $('deadlineValue').innerHTML=type==='urgent'?'باقي أقل من ساعة لاستكمال اختبارك':'<bdi dir="ltr"><b>21</b></bdi><small>ساعة</small>';
+ document.querySelectorAll('[data-mode]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.mode===mode)));
+ document.querySelectorAll('[data-device]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.device===state.device)));
+ const names={short:'رسالة الاستكمال المختصرة',long:'ملخص التقدم والمهلة',urgent:'تنبيه قرب انتهاء المهلة'};
+ const dname={desktop:'Desktop',tablet:'Tablet',mobile:'Mobile'};
+ $('previewTitle').textContent=dname[state.device]+' — '+names[type];
+ $('explanation').textContent=type==='short'?'رسالة مختصرة':type==='long'?'ملخص بعد انقطاع طويل':'مهلة أقل من ساعة';
+ $('explanationInfo').textContent=type==='short'?' — بدون نسبة تقدم أو تفاصيل المهلة.':type==='long'?' — تقدّم الطالب والمهلة بالساعات الكاملة فقط.':' — تنبيه واضح بدون عدّاد دقائق وثوانٍ.';
 }
-function custom(){ $('scenario').value='custom';state.dismissed=false;render()}
-$('scenario').addEventListener('change',function(){if(scenarios[this.value]){var s=scenarios[this.value];state.mode=s.mode;state.duration=s.duration;state.previous=s.previous;state.remaining=s.remaining;state.dismissed=false;render()}});
-all('[data-mode]').forEach(function(b){b.addEventListener('click',function(){state.mode=this.dataset.mode;custom()})});
-all('[data-device]').forEach(function(b){b.addEventListener('click',function(){state.device=this.dataset.device;render()})});
-$('duration').addEventListener('change',function(){state.duration=Number(this.value);custom()});
-$('previous').addEventListener('change',function(){state.previous=this.value;custom()});
-$('remaining').addEventListener('change',function(){state.remaining=Number(this.value);custom()});
-$('resume').addEventListener('click',function(){state.dismissed=true;render()});
-$('restore').addEventListener('click',function(){state.dismissed=false;render();$('resume').focus()});
-function choose(k){$('scenario').value=k;var s=scenarios[k];state.mode=s.mode;state.duration=s.duration;state.previous=s.previous;state.remaining=s.remaining;state.dismissed=false;render()}
-window.GoIELTSMessageDemo={choose:choose,view:decision,getState:function(){return Object.assign({},state)},reset:function(){choose('p120')}};
-choose('p120');
+$('messageSelect').addEventListener('change',e=>{state.type=e.target.value;state.continued=false;render()});
+document.querySelectorAll('[data-mode]').forEach(b=>b.addEventListener('click',()=>{state.mode=b.dataset.mode;state.continued=false;render()}));
+document.querySelectorAll('[data-device]').forEach(b=>b.addEventListener('click',()=>{state.device=b.dataset.device;render()}));
+$('resume').addEventListener('click',()=>{state.continued=true;render()});
+$('reset').addEventListener('click',()=>{state.continued=false;render();$('resume').focus()});
+window.GoIELTSMessages={getState:()=>({...state}),set:(options)=>{Object.assign(state,options);state.continued=false;render()},copy:()=>structuredClone(texts),reset:()=>{Object.assign(state,{type:'short',mode:'practice',device:'desktop',continued:false});render()}};
+render();
 })();
 </script>
 </body>
